@@ -2,18 +2,7 @@
 <html lang="pt-br">
 <head>
     <html lang="pt-br" style="background: #0a0b0d;"></html>
-    <script>
-        // Esse script roda ANTES de qualquer imagem ou texto carregar
-        (function() {
-            if (localStorage.getItem('usuarioLogado')) {
-                // Se estiver logado, mostra a página instantaneamente
-                document.documentElement.style.display = 'block';
-            } else {
-                // Se não estiver, manda pro login sem mostrar nada
-                window.location.replace('login.html');
-            }
-        })();
-    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia | Gouvêa</title>
