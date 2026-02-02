@@ -1,0 +1,806 @@
+/* ========================================================================== */
+/* VISIBILIDADE PADRÃO (DESKTOP) */
+/* ========================================================================== */
+/* REGRA GLOBAL — DESKTOP */
+.mobile-admin,
+.mobile-tabs,
+.mobile-content,
+.mobile-config-tabs {
+    display: none !important;
+}
+
+.hamburger-btn,
+.mobile-menu,
+.mobile-overlay {
+    display: none;
+}
+
+@media (max-width: 1199px) {
+    /* 1. MATAR A SIDEBAR QUE ESTÁ VAZANDO (Conforme as fotos) */
+    /* Substitua '.sidebar' pelo nome da classe real daquela barra vertical se for diferente */
+    .sidebar, aside, [class*="sidebar-desktop"], .left-nav { 
+        display: none !important; 
+    }
+
+    /* 2. RESET DO VIEWPORT */
+    .viewport {
+        margin-left: 0 !important;
+        
+        width: 100% !important;
+    }
+
+    /* 3. ESTILO DA TAB BAR INFERIOR */
+    .mobile-config-tabs {
+        display: none; /* Escondida por padrão */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 75px;
+        background: #121418;
+        border-top: 1px solid #c5a86d;
+        z-index: 9999;
+        justify-content: space-around;
+        align-items: center;
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Só exibe a Tab Bar quando o body tiver a classe 'admin-active' */
+    body.admin-active .mobile-config-tabs {
+        display: flex !important;
+    }
+
+    .tab-item {
+        flex: 1;
+        background: none;
+        border: none;
+        color: #666;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .tab-item.active { color: #c5a86d; }
+    .tab-item i { font-size: 1.2rem; }
+    .tab-item span { font-size: 0.7rem; font-weight: bold; }
+
+    /* 4. CONTROLE DE VISIBILIDADE DAS SEÇÕES */
+    .config-section-mobile { display: none; }
+    .config-section-mobile.active { display: block !important; }
+
+
+    /* ===================================================== */
+    /* HAMBURGER BUTTON */
+    /* ===================================================== */
+
+    .hamburger-btn {
+        display: flex;
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 200;
+        backdrop-filter: blur(8px);
+    }
+
+    .hamburger-btn span {
+        width: 14px;
+        height: 2px;
+        background: var(--accent);
+        position: relative;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-btn span::before,
+    .hamburger-btn span::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 2px;
+        background: var(--accent);
+        left: 0;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-btn span::before {
+        top: -5px;
+    }
+
+    .hamburger-btn span::after {
+        bottom: -5px;
+    }
+
+    /* ===================================================== */
+    /* DRAWER MENU */
+    /* ===================================================== */
+
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: -105%; /* Ajustado para esconder sombra completamente */
+        width: 78%;
+        max-width: 280px;
+        height: 100vh;
+        padding: 30px 20px;
+        background: linear-gradient(180deg, #121418 0%, #0a0b0d 100%);
+        z-index: 195; /* Garantindo que fique sobre o overlay */
+        transition: right 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: -20px 0 60px rgba(0,0,0,0.8);
+        
+    }
+
+    
+    .mobile-menu.active {
+        right: 0;
+    }
+
+   /* ===================================================== */
+/* MENU CONTENT - VERSÃO PREMIUM */
+/* ===================================================== */
+
+.mobile-menu {
+    padding: 30px 20px;
+    background: #121212; /* Fundo bem escuro para o menu */
+}
+
+.mobile-menu h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #c5a86d; /* Dourado da barbearia */
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(197, 168, 109, 0.2);
+    display: inline-block;
+    width: 100%;
+}
+
+.mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mobile-menu nav button {
+    background: rgba(255, 255, 255, 0.03); /* Fundo sutil */
+    border: 1px solid rgba(197, 168, 109, 0.15); /* Borda dourada bem fina */
+    color: #e0e0e0;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* Efeito ao clicar/ativo */
+.mobile-menu nav button:active, 
+.mobile-menu nav button.active {
+    background: rgba(197, 168, 109, 0.12);
+    border-color: #c5a86d;
+    color: #c5a86d;
+    transform: scale(0.98);
+}
+
+.mobile-menu nav button i {
+    font-size: 1.1rem;
+    color: #c5a86d;
+    width: 24px; /* Garante que o texto fique alinhado */
+    text-align: center;
+}
+
+/* BOTÃO SAIR DESTACADO (Igual à imagem) */
+.mobile-menu nav button.logout-btn {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #631e1e 0%, #411414 100%);
+    border: none;
+    color: #ffcccc;
+    justify-content: center; /* Centraliza o texto "Sair" */
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.mobile-menu nav button.logout-btn i {
+    color: #ffcccc;
+}
+
+    /* ===================================================== */
+    /* OVERLAY */
+    /* ===================================================== */
+
+    .mobile-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+        z-index: 190; /* Abaixo do menu, acima do conteúdo */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .mobile-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* ===================================================== */
+    /* HEADERS */
+    /* ===================================================== */
+
+    .glass-header {
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+
+    .glass-header h1 {
+        font-size: 1.6rem;
+        line-height: 1.1;
+    }
+
+    #live-clock {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    /* ===================================================== */
+    /* GRIDS */
+    /* ===================================================== */
+
+    .grid-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .item-card {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    /* ===================================================== */
+    /* STATS */
+    /* ===================================================== */
+
+    .stats-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .report-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* ===================================================== */
+    /* INVENTORY */
+    /* ===================================================== */
+
+    .inventory-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .item-price-tag {
+        margin-left: 0;
+    }
+
+    /* ===================================================== */
+    /* MODAL */
+    /* ===================================================== */
+
+    .modal-card {
+        padding: 25px;
+        border-radius: 22px;
+    }
+}
+
+
+
+/* ===================================================== */
+/* PAINEL VENDAS
+/* ===================================================== */
+/* --- ADAPTAÇÃO MOBILE (TABLETS E CELULARES) --- */
+@media (max-width: 768px) {
+    .vertical-display {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto; /* Remove o top 50% */
+        transform: none; /* Remove o centralizado vertical */
+        
+        width: 100%;
+        height: auto; /* Deixa o conteúdo definir a altura */
+        max-height: 60vh; /* Não deixa ocupar a tela toda */
+        
+        background: #080808; /* Um pouco mais sólido no mobile */
+        border-radius: 25px 25px 0 0; /* Arredonda apenas em cima */
+        border: none;
+        border-top: 2px solid var(--accent); /* Linha de destaque no topo */
+        
+        padding: 20px;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.9);
+        border-right: none; /* Remove a borda lateral da torre */
+    }
+
+    /* Adiciona um "puxador" visual no topo do modal mobile */
+    .vertical-display::before {
+        content: '';
+        width: 40px;
+        height: 4px;
+        background: #333;
+        border-radius: 10px;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Ajuste da Lista de Itens para não ficar muito grande */
+    #display-items-list {
+        max-height: 150px; /* Limita a lista no mobile */
+        margin: 10px 0;
+        display: none;
+    }
+
+    /* Valor Total (H2) um pouco menor no mobile para não quebrar */
+    .display-body h2 {
+        font-size: 1.8rem;
+    }
+
+    .display-header span {
+        font-size: 0.55rem;
+    }
+
+    /* Esconde o display caso queira liberar espaço (Opcional) */
+    /* Você pode adicionar uma classe .minimized via JS */
+}
+
+/* Ajuste para celulares muito pequenos */
+@media (max-width: 480px) {
+    .vertical-display {
+        padding: 15px;
+    }
+    
+    .display-body h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* --- ADAPTAÇÃO MOBILE: CARROSSEL HORIZONTAL --- */
+@media (max-width: 768px) {
+    /* 1. Transformamos o Grid em um container de rolagem horizontal */
+    .grid-layout { 
+        margin-right: 0 !important; 
+        padding: 10px 20px;
+        display: flex;             /* Mudamos de grid para flex */
+        flex-wrap: nowrap;        /* Impede que os itens pulem para a linha de baixo */
+        overflow-x: auto;         /* Ativa a rolagem lateral */
+        gap: 15px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+        
+        /* Máscara visual para indicar que tem mais itens (seta ou gradiente) */
+        mask-image: linear-gradient(to right, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    }
+
+    /* Esconde a barra de rolagem padrão para ficar mais limpo */
+    .grid-layout::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 2. Ajustamos o card para manter o tamanho fixo dentro do carrossel */
+    .item-card {
+        flex: 0 0 100px;   /* Não deixa o card esticar ou encolher, trava em 100px */
+        width: 100px;
+        aspect-ratio: 1/1; 
+        height: 100px;
+        border-radius: 50%;
+        padding: 5px;
+        gap: 2px;
+    }
+
+    .item-card i {
+        font-size: 1.1rem;
+        margin-bottom: 2px;
+    }
+
+    .item-card strong {
+        font-size: 0.5rem;
+        max-width: 80%;
+        white-space: normal; /* Permite quebrar linha se o nome for grande */
+        line-height: 1.1;
+    }
+
+    .item-card span {
+        font-size: 0.75rem;
+    }
+
+    /* 3. Indicador visual de "Arraste" (Seta) */
+    .section-title::after {
+        content: 'ARRASTE \2192'; /* Seta Unicode → */
+        font-size: 0.5rem;
+        float: right;
+        color: var(--accent);
+        opacity: 0.6;
+        letter-spacing: 1px;
+        margin-right: 20px;
+        animation: pulseArrow 2s infinite;
+    }
+}
+
+@keyframes pulseArrow {
+    0%, 100% { opacity: 0.3; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(5px); }
+}
+
+
+/* ==========================================================================
+   ADMINISTRATIVO - REVISÃO PREMIUM MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1. Reset de Containers para fluidez */
+    .admin-container, 
+    .admin-lists-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 15px;
+        margin-bottom: 110px; /* Espaço para a Tab Bar */
+    }
+
+    /* 2. Botões de Ação (Estilo Neumorphism/Glass) */
+    .admin-actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 10px 0;
+    }
+
+    .admin-card-action button {
+        width: 100%;
+        height: auto;
+        padding: 18px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .admin-card-action button i {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        color: var(--accent);
+    }
+
+    .admin-card-action button span {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #fff;
+        text-align: center;
+    }
+
+    /* 3. Cards de Lista (Visual "Bento Box" Suave) */
+    .admin-card-list {
+        background: rgba(15, 15, 15, 0.6) !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 25px;
+        padding: 18px !important;
+        max-height: 70vh !important; /* Limita altura para não quebrar o layout */
+    }
+
+    .admin-header-main {
+        margin-bottom: 15px;
+        font-size: 0.8rem;
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    /* 4. Itens da Lista (Mais Espaçados e Legíveis) */
+    .inventory-item {
+        background: rgba(255,255,255,0.02);
+        margin-bottom: 10px;
+        padding: 12px 15px;
+        border-radius: 15px;
+        border-left: 3px solid var(--accent);
+    }
+
+    .item-name { font-size: 0.85rem; }
+    .item-price { font-size: 0.85rem; }
+
+    /* 5. Tab Bar Inferior (Estilo Floating iOS) */
+    .mobile-config-tabs {
+        position: fixed;
+        bottom: 15px; /* Flutuando */
+        left: 15px;
+        right: 15px;
+        width: calc(100% - 30px);
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(20px);
+        border-radius: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .tab-item {
+        flex: 1;
+        transition: 0.2s;
+    }
+
+    .tab-item i {
+        font-size: 1.1rem;
+        margin-bottom: 3px;
+    }
+
+    .tab-item span {
+        font-size: 0.55rem;
+        font-weight: 500;
+    }
+
+    /* 6. Modais e Formulários */
+    .modal-card {
+        width: 95% !important;
+        padding: 25px !important;
+        border-radius: 30px !important;
+        bottom: 20px; /* Sobe um pouco no mobile */
+    }
+
+    .smart-form input, 
+    .smart-form select {
+        height: 55px; /* Altura padrão mobile */
+        font-size: 16px !important; /* Previne zoom do iOS */
+        background: #000 !important;
+        border: 1px solid #333;
+    }
+
+    .btn-confirm {
+        height: 55px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+
+
+/* Estilo dos Contadores */
+.admin-stats-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 0 15px 20px 15px;
+}
+
+.stat-mini-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 12px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent); /* Dourado */
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+   RECONSTRUÇÃO TOTAL: ANALYTICS MOBILE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* 1. Header e Datas: Empilhamento Inteligente */
+    .glass-header {
+        display: flex;
+        flex-direction: column;
+        padding: 15px !important;
+        gap: 20px !important;
+    }
+
+    .header-actions {
+        display: grid !important;
+        grid-template-columns: 1fr; /* Um item por linha para não esmagar */
+        width: 100%;
+        gap: 12px !important;
+    }
+
+    /* Container de Datas (Início | Fim) */
+    .header-actions > div[style*="background: var(--card-bg)"] {
+        display: grid !important;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        width: 100%;
+        padding: 12px !important;
+    }
+
+    /* 2. Filtros: Botões Grandes e fáceis de tocar */
+    .filter-group {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr); /* 2 por linha no mobile */
+        gap: 8px;
+        margin: 15px 0 !important;
+    }
+
+    .filter-btn {
+        width: 100%;
+        padding: 12px !important;
+        font-size: 0.85rem !important;
+        border-radius: 10px !important;
+    }
+
+    /* 3. Métricas Principais: O fim dos cards esmagados */
+    .stats-row.main-metrics {
+        display: flex !important;
+        flex-direction: column !important; /* Empilha verticalmente para ler os valores */
+        gap: 12px !important;
+    }
+
+    .report-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        border-radius: 18px !important;
+        border-left-width: 5px !important; /* Destaque lateral */
+    }
+
+    .report-card h2 {
+        font-size: 1.6rem !important; /* Valor bem grande para o barbeiro ver rápido */
+        margin: 10px 0 !important;
+    }
+
+    .card-footer-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        opacity: 0.8;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 10px;
+    }
+
+    /* 4. Gráficos: Distribuição Visual */
+    .report-content-flex {
+        display: flex;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+
+    .pizza-chart-container {
+        order: -1; /* Pizza sempre no topo */
+        width: 220px !important;
+        height: 220px !important;
+        margin: 0 auto !important;
+    }
+
+    /* 5. Barras de Gráfico: Layout "Stack" */
+    .chart-mock {
+        display: flex;
+        flex-direction: column;
+        gap: 20px !important;
+    }
+
+    .chart-item {
+        display: flex !important;
+        flex-direction: column !important; /* Label em cima da barra */
+        gap: 8px !important;
+        width: 100%;
+    }
+
+    .chart-item span:first-child {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+    }
+
+    .bar-bg {
+        width: 100% !important;
+        height: 12px !important;
+        background: rgba(255,255,255,0.05) !important;
+        border-radius: 20px !important;
+    }
+
+    .val-label {
+        display: block;
+        text-align: right;
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 1rem;
+    }
+
+    /* 6. Lista de Detalhes: Mobile Sheet */
+    .detail-card-scroll {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 450px !important;
+        background: rgba(20, 20, 30, 0.95) !important;
+        border-radius: 20px !important;
+        margin-top: 20px !important;
+    }
+}
+
+
+
+/* Estilo para o botão no menu mobile */
+.theme-btn-mobile {
+    width: 80%;
+    padding: 15px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+}
+
+.theme-btn-mobile i {
+    width: 20px;
+    color: var(--accent);
+}
+
+/* Quando o tema claro estiver ativo, garantimos que o menu mobile também mude */
+body.light-theme .mobile-menu {
+    background: var(--sidebar-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+body.light-theme .mobile-menu h3 {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+}

@@ -1,0 +1,319 @@
+:root {
+    --accent: #c5a86d;
+    --bg-dark: #050505;
+    --glass: rgba(15, 15, 15, 0.85);
+    --border: rgba(197, 168, 109, 0.2);
+}
+/* Remove o fundo branco e texto preto do preenchimento automático */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--glass) inset !important; /* Muda o fundo para a cor do seu site */
+    -webkit-text-fill-color: white !important; /* Força a cor do texto para branco */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Remove o fundo azulado/branco no Firefox */
+input:filter(autofill) {
+    background-color: var(--bg-dark) !important;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.luxury-login {
+    height: 100vh;
+    background: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+.background-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(197, 168, 109, 0.05) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.login-portal {
+    width: 400px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 50px 40px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+}
+
+/* Cantoneiras */
+.corner-border {
+    position: absolute;
+    width: 15px; height: 15px;
+    border: 2px solid var(--accent);
+}
+.top-left { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.bottom-right { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+/* Logo e Header */
+.portal-header { text-align: center; margin-bottom: 40px; }
+.gold-icon { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
+
+.metallic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    background: linear-gradient(to bottom, #fbf5b7 0%, #c5a86d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    opacity: 0.5;
+}
+
+.pulse-dot {
+    width: 6px; height: 6px;
+    background: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #4caf50;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+/* Campos de Input */
+.field-group { margin-bottom: 25px; }
+.field-group label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.input-wrapper {
+    position: relative;
+    border-bottom: 1px solid #222;
+    transition: 0.3s;
+}
+
+.input-wrapper:focus-within { border-color: var(--accent); }
+.input-wrapper i { position: absolute; left: 0; top: 12px; color: #333; font-size: 0.9rem; }
+.input-wrapper input:focus + i { color: var(--accent); }
+
+.input-wrapper input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 12px 12px 12px 30px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+/* Opções e Checkbox */
+.portal-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.cyber-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.cyber-check input { display: none; }
+.custom-check {
+    width: 12px; height: 12px;
+    border: 1px solid #333;
+    display: inline-block;
+    position: relative;
+}
+.cyber-check input:checked + .custom-check { background: var(--accent); border-color: var(--accent); }
+
+.forgot-btn {
+    background: none; border: none; color: var(--accent);
+    font-size: 0.65rem; font-weight: bold; cursor: pointer; letter-spacing: 1px;
+}
+
+/* Botão Entrar */
+.enter-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--accent);
+    border: none;
+    color: black;
+    font-weight: 900;
+    letter-spacing: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.enter-btn:hover { background: #fbf5b7; transform: translateY(-2px); }
+
+.shine-effect {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shine 4s infinite;
+}
+
+@keyframes shine { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+
+.portal-footer { margin-top: 40px; text-align: center; }
+.footer-line { width: 30px; height: 1px; background: #222; margin: 0 auto 15px; }
+.portal-footer p { font-size: 0.55rem; color: #444; letter-spacing: 2px; }
+
+
+.toggle-text {
+    margin-top: 20px;
+    font-size: 0.7rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.toggle-text a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+}
+.toggle-text a:hover { text-shadow: 0 0 10px var(--accent); }
+
+
+
+/* Estilos do Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+.alert-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+}
+
+.alert-box {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,1);
+}
+
+#alert-message {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin: 20px 0;
+    color: #eee;
+}
+
+.alert-btn {
+    padding: 10px !important;
+    font-size: 0.7rem !important;
+}
+
+
+
+/* --- OTIMIZAÇÃO MOBILE SUTIL --- */
+@media (max-width: 480px) {
+    .login-portal {
+        width: 85%; /* Menos largo para mostrar mais o fundo */
+        padding: 30px 25px; /* Redução drástica do respiro interno */
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .metallic-title {
+        font-size: 1.1rem; /* Título mais delicado */
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+    }
+
+    .gold-icon {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .status-indicator {
+        margin-top: 5px;
+        font-size: 0.6rem;
+    }
+
+    /* Campos mais baixos e discretos */
+    .field-group {
+        margin-bottom: 18px;
+    }
+
+    .field-group label {
+        margin-bottom: 6px;
+        font-size: 0.55rem;
+    }
+
+    .input-wrapper input {
+        padding: 8px 10px 8px 25px; /* Mais fino */
+        font-size: 0.9rem; /* Tamanho equilibrado */
+    }
+
+    .input-wrapper i {
+        top: 10px;
+        font-size: 0.8rem;
+    }
+
+    /* Botão mais elegante (menos alto) */
+    .enter-btn {
+        padding: 14px;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+    }
+
+    .portal-options {
+        margin-bottom: 25px;
+    }
+
+    .cyber-check span, .forgot-btn {
+        font-size: 0.6rem;
+    }
+
+    .portal-footer {
+        margin-top: 25px;
+    }
+}
+

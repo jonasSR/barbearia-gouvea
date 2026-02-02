@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia | Gouvêa</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+</head>
+<body>
+
+
+<!-- HAMBURGER -->
+<div class="hamburger-btn" id="hamburger">
+    <span></span>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+    <h3>Menu</h3>
+    <nav>
+        <button type="button" class="active" onclick="openMobileTab('pos')">
+            <i class="fas fa-shopping-cart"></i> Vendas
+        </button>
+        <button type="button" onclick="openMobileTab('admin')">
+            <i class="fas fa-cog"></i> Configurações
+        </button>
+        <button type="button" onclick="openMobileTab('stats')">
+            <i class="fas fa-chart-line"></i> Relatórios
+        </button>
+        
+        <button onclick="logout()" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </button>
+    </nav>
+</div>
+
+<div class="mobile-config-tabs" id="mobileConfigTabs">
+    <button class="tab-item active" onclick="showConfigSection('novo-item', this)">
+        <i class="fas fa-plus-circle"></i>
+        <span>Novo Item</span>
+    </button>
+    <button class="tab-item" onclick="showConfigSection('servicos', this)">
+        <i class="fas fa-concierge-bell"></i>
+        <span>Serviços</span>
+    </button>
+    <button class="tab-item" onclick="showConfigSection('produtos', this)">
+        <i class="fas fa-box-open"></i>
+        <span>Produtos</span>
+    </button>
+    <button class="tab-item" onclick="showConfigSection('despesas', this)">
+        <i class="fas fa-wallet"></i>
+        <span>Despesas</span>
+    </button>
+</div>
+<!-- FINAL MENU MOBILE -->
+ 
+
+
+
+
+<aside class="sidebar">
+    <div class="top-group" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="logo">
+            <img src="img/logo/logo.png" alt="Logo Barbearia">
+        </div>
+        
+        
+        <nav>
+            <button onclick="switchTab('pos')" class="nav-btn active" title="Vendas">
+                <i class="fas fa-receipt"></i>
+            </button>
+            <button onclick="switchTab('stats')" class="nav-btn" title="Relatórios">
+                <i class="fas fa-chart-pie"></i>
+            </button>
+            <button onclick="switchTab('admin')" class="nav-btn" title="Configurar">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+        </nav>
+    </div>
+
+    <div class="bottom-group" style="display: flex; flex-direction: column; align-items: center;">
+        <button onclick="logout()" class="nav-btn logout-btn" title="Sair do Sistema">
+            <i class="fas fa-power-off"></i>
+        </button>
+        
+
+
+        <div class="branding-horizontal">
+            POWERED BY <span>NEXODIGITAL</span>
+        </div>
+    </div>
+</aside>
+
+    <main class="viewport">
+        
+        <section id="pos" class="tab-content active">
+            <div class="glass-header">
+                <div>
+                    <h1>Barbearia Gouvêa</h1>
+                    <p id="live-clock">Carregando data...</p>
+                </div>
+                <div class="main-stats">
+                    <div class="vertical-display">
+                        <div class="display-glass"></div>
+                        <div class="display-header">
+                            <i class="fas fa-microchip"></i>
+                            <span>CAIXA STATUS</span>
+                        </div>
+                        
+                        <div id="display-items-list" style="flex: 1; overflow-y: auto; margin: 15px 0;">
+                            </div>
+
+                        <div class="display-body" style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                            <small>TOTAL DO CAIXA</small>
+                            <h2 id="cash-balance">R$ 0,00</h2>
+                        </div>
+
+                        <div class="display-footer">
+                            <div class="signal-bars">
+                                <span class="bar active"></span>
+                                <span class="bar active"></span>
+                                <span class="bar active"></span>
+                                <span class="bar"></span>
+                            </div>
+                            <span class="status-text">ONLINE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pos-search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="main-search" placeholder="O que vamos lançar hoje? (Ex: Degradê, Pomada...)" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="content-scroll">
+                <div class="section-title">
+                    <i class="fas fa-cut"></i> Serviços Premium
+                </div>
+                <div class="grid-layout" id="grid-servicos">
+                    </div>
+
+                <div class="section-title" style="margin-top: 40px;">
+                    <i class="fas fa-box-open"></i> Produtos & Estoque
+                </div>
+                <div class="grid-layout" id="grid-produtos">
+                    </div>
+            </div>
+        </section>
+        <section id="stats" class="tab-content">
+            <div class="glass-header" style="flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1>Relatórios</h1>
+                    <p>Controle financeiro e histórico de faturamento</p>
+                </div>
+                <div class="header-actions" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 10px; align-items: center; background: var(--card-bg); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="display: flex; flex-direction: column;">
+                            <small style="color: var(--text-secondary); font-size: 0.6rem; text-transform: uppercase;">Início</small>
+                            <input type="date" id="dateStart" style="background: transparent; border: none; color: white; font-size: 0.85rem; outline: none; cursor: pointer; color-scheme: dark;">
+                        </div>
+                        <span style="color: var(--border); margin-top: 10px;">|</span>
+                        <div style="display: flex; flex-direction: column;">
+                            <small style="color: var(--text-secondary); font-size: 0.6rem; text-transform: uppercase;">Fim</small>
+                            <input type="date" id="dateEnd" style="background: transparent; border: none; color: white; font-size: 0.85rem; outline: none; cursor: pointer; color-scheme: dark;">
+                        </div>
+                    </div>
+                    <button class="btn-confirm" onclick="exportarRelatorioPDF('custom')" style="padding: 12px 20px; font-size: 0.9rem;">
+                        <i class="fas fa-file-pdf"></i> PDF Período
+                    </button>
+                    <button class="btn-outline" onclick="exportarRelatorioPDF('mensal')" style="padding: 12px 20px; font-size: 0.9rem;">
+                        <i class="fas fa-calendar-alt"></i> Este Mês
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stats-row" style="justify-content: flex-start;">
+                    <div class="report-card card-small-width">
+                        <h3><i class="fas fa-history"></i> Últimos Fechamentos Diários</h3>
+                        <div id="daily-history-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="filter-group" style="display: flex; justify-content: center; gap: 10px; margin: 10px 0;">
+                    <button class="filter-btn active" onclick="updateReports('hoje', this)">Hoje</button>
+                    <button class="filter-btn" onclick="updateReports('ontem', this)">Ontem</button>
+                    <button class="filter-btn" onclick="updateReports('semana', this)">7 Dias</button>
+                    <button class="filter-btn" onclick="updateReports('mes', this)">30 Dias</button>
+                </div>
+
+                <div class="stats-row main-metrics">
+                    <div class="report-card" style="border-left: 4px solid var(--success);">
+                        <small>FECHAMENTO HOJE (LÍQUIDO)</small>
+                        <h2 id="today-net" style="color: var(--success);">R$ 0,00</h2>
+                        <div class="card-footer-info">
+                            <span>Vendas: <b id="today-gross-val">R$ 0,00</b></span>
+                            <span>|</span>
+                            <span>Gastos: <b id="today-expense-val" style="color: var(--danger);">R$ 0,00</b></span>
+                        </div>
+                    </div>
+
+                    <div class="report-card" style="border-left: 4px solid var(--danger);">
+                        <small>DESPESAS DO MÊS</small>
+                        <h2 id="month-expenses-val" style="color: var(--danger);">R$ 0,00</h2>
+                        <p>Saídas registradas no período</p>
+                    </div>
+
+                    <div class="report-card">
+                        <small>FATURAMENTO SEMANAL</small>
+                        <h2 id="week-total">R$ 0,00</h2>
+                        <p class="positive">Entradas últimos 7 dias</p>
+                    </div>
+
+                    <div class="report-card">
+                        <small>FATURAMENTO MENSAL</small>
+                        <h2 id="month-total-val">R$ 0,00</h2>
+                        <p>Acumulado total do mês</p>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="report-card full">
+                        <h3>Distribuição de Vendas e Gastos</h3>
+                        
+                        
+                        <div class="report-content-flex">
+                            
+                            <div class="chart-mock">
+                                <div class="chart-item">
+                                    <span>Cortes (Serviços)</span>
+                                    <div class="bar-bg"><div id="bar-servicos" class="bar-fill blue" style="width: 0%"></div></div>
+                                    <span id="val-servicos" class="val-label">R$ 0</span>
+                                </div>
+                                <div class="chart-item">
+                                    <span>Venda de Produtos</span>
+                                    <div class="bar-bg"><div id="bar-produtos" class="bar-fill green" style="width: 0%"></div></div>
+                                    <span id="val-produtos" class="val-label">R$ 0</span>
+                                </div>
+                                <div class="chart-item">
+                                    <span>Despesas (Saídas)</span>
+                                    <div class="bar-bg"><div id="bar-saidas" class="bar-fill red" style="width: 0%"></div></div>
+                                    <span id="val-saidas" class="val-label">R$ 0</span>
+                                </div>
+                            </div>
+                            
+
+                            <div class="pizza-chart-container">
+                                <svg viewBox="0 0 32 32" class="pizza-svg">
+                                    <g id="pizza-segments"></g>
+                                </svg>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px;">
+                                <h3 id="side-title" style="margin: 0; font-size: 0.9rem;"></h3>
+                                <span id="side-count" style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; color: #aaa;"></span>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div id="side-details-card" class="report-card detail-card-scroll">
+                        <div id="side-content-empty" class="side-empty-state">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Detalhes do Lançamento</h4>
+                        </div>
+
+                        <div id="side-content-data" class="side-data-container">
+                            <h3 id="side-title">Título Fixo</h3>
+                            
+                            <div id="side-list">
+                                </div>
+                        </div>
+                    </div>
+                    
+        </section>
+        <section id="admin" class="tab-content">
+            <div class="glass-header">
+                <h1>Painel Administrativo</h1>
+                <p>Gerencie seu catálogo e finanças de forma independente.</p>
+            </div>
+
+            <div class="admin-stats-overview" data-admin-section="novo-item servicos produtos despesas">
+                <div class="stat-mini-card">
+                    <span class="stat-value" id="count-servicos">0</span>
+                    <span class="stat-label">Serviços</span>
+                </div>
+                <div class="stat-mini-card">
+                    <span class="stat-value" id="count-produtos">0</span>
+                    <span class="stat-label">Produtos</span>
+                </div>
+                <div class="stat-mini-card">
+                    <span class="stat-value" id="count-despesas">0</span>
+                    <span class="stat-label">Despesas</span>
+                </div>
+            </div>
+
+            <div class="admin-actions-grid" data-admin-section="novo-item despesas">
+                <div class="admin-card-action">
+                    <button class="btn-confirm" onclick="openModal('modal-item')">
+                        <i class="fas fa-plus-circle"></i> Novo Item no Catálogo
+                    </button>
+                </div>
+                <div class="admin-card-action">
+                    <button class="btn-confirm red-btn" onclick="openModal('modal-despesa')">
+                        <i class="fas fa-wallet"></i> Lançar Despesa
+                    </button>
+                </div>
+            </div>
+
+            <div class="admin-lists-container">
+                <div class="admin-card-list" id="admin-despesas-card" data-admin-section="despesas">
+                    <div class="admin-header-main">
+                        <i class="fas fa-wallet"></i>
+                        <span>Despesas</span>
+                    </div>
+                    <div id="list-despesas" class="admin-grid-inner styled-list"></div>
+                </div>
+
+                <div class="admin-card-list" data-admin-section="servicos">
+                    <div class="admin-header-main">
+                        <i class="fas fa-cut"></i>
+                        <span>Gestão de Serviços</span>
+                    </div>
+                    <div id="list-servicos" class="admin-grid-inner"></div>
+                </div>
+
+                <div class="admin-card-list" data-admin-section="produtos">
+                    <div class="admin-header-main">
+                        <i class="fas fa-box-open"></i>
+                        <span>Gestão de Estoque</span>
+                    </div>
+                    <div id="list-produtos" class="admin-grid-inner"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <div id="modal-item" class="modal-overlay">
+            <div class="modal-card">
+                <div class="luxury-separator">
+                    <h2 class="metallic-title">Novo Item</h2>
+                    <div class="luxury-line"></div>
+                </div>
+                <div class="smart-form">
+                    <input type="text" id="itemName" placeholder="Ex: Corte Degradê ou Pomada Matte">
+                    <div class="row">
+                        <input type="number" id="itemPrice" placeholder="Preço R$">
+                        <select id="itemType">
+                            <option value="servico">Serviço</option>
+                            <option value="produto">Produto</option>
+                        </select>
+                    </div>
+                    <button class="btn-confirm" onclick="addItem(); closeModal('modal-item')">Salvar Item</button>
+                    <button class="btn-outline" onclick="closeModal('modal-item')" style="margin-top: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-despesa" class="modal-overlay">
+            <div class="modal-card">
+                <div class="luxury-separator">
+                    <h2 class="metallic-title">Registrar Saída</h2>
+                    <div class="luxury-line" style="background: var(--danger)"></div>
+                </div>
+                <div class="smart-form">
+                    <input type="text" id="expenseDesc" placeholder="Ex: Luz, Aluguel...">
+                    <input type="number" id="expenseVal" placeholder="Valor R$">
+                    <button class="btn-confirm red-btn" onclick="executarSaida()">Registrar Saída</button>
+                    <button class="btn-outline" onclick="closeModal('modal-despesa')" style="margin-top: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        </section>
+
+    </main>
+
+    <div id="editModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3><i class="fas fa-edit"></i> Editar Item</h3>
+            <input type="hidden" id="editItemId">
+            <div class="smart-form">
+                <input type="text" id="editItemName" placeholder="Nome">
+                <div class="row">
+                    <input type="number" id="editItemPrice" placeholder="Preço R$">
+                    <select id="editItemType">
+                        <option value="servico">Serviço</option>
+                        <option value="produto">Produto</option>
+                    </select>
+                </div>
+                <button class="btn-confirm" onclick="saveEdit()">Salvar Alterações</button>
+                <button class="btn-outline" onclick="closeEditModal()" style="border-color: var(--danger); color: var(--danger);">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmSaleModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3><i class="fas fa-check-circle"></i> Confirmar Lançamento</h3>
+            
+            <div id="salePreview" style="margin: 20px 0; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                </div>
+
+            <div class="smart-form">
+                <label style="color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 12px; display: block; text-transform: uppercase; text-align: center;">Forma de Pagamento</label>
+                
+                <div class="payment-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px;">
+                    <button type="button" class="pay-btn active" onclick="selectMethod(this, 'Dinheiro')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Dinheiro</span>
+                    </button>
+                    <button type="button" class="pay-btn" onclick="selectMethod(this, 'Pix')">
+                        <i class="fas fa-qrcode"></i>
+                        <span>Pix</span>
+                    </button>
+                    <button type="button" class="pay-btn" onclick="selectMethod(this, 'Crédito')">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Crédito</span>
+                    </button>
+                    <button type="button" class="pay-btn" onclick="selectMethod(this, 'Débito')">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Débito</span>
+                    </button>
+                </div>
+
+                <input type="hidden" id="paymentMethod" value="Dinheiro">
+
+                <button class="btn-confirm" id="btnConfirmarFinal" onclick="executeSale()" style="width: 100%; margin-bottom: 8px;">Confirmar e Lançar</button>
+                <button class="btn-outline" onclick="closeConfirmModal()" style="width: 100%; border-color: var(--danger); color: var(--danger);">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tooltip-pizza" style="
+        display: none; 
+        position: fixed; 
+        background: rgba(0, 0, 0, 0.85); 
+        color: white; 
+        padding: 10px 15px; 
+        border-radius: 8px; 
+        font-size: 13px; 
+        z-index: 9999; 
+        pointer-events: none; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(5px);
+    "></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
