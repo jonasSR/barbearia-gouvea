@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script>
+        (function() {
+            // 1. Verificamos se existe a sessão no localStorage
+            // IMPORTANTE: O nome 'usuarioLogado' deve ser o mesmo que você usa no login.js
+            const logado = localStorage.getItem('usuarioLogado'); 
+
+            if (!logado || logado === 'false') {
+                // Se NÃO estiver logado, esconde tudo e vai para o login
+                document.documentElement.style.display = 'none';
+                window.location.replace('login.html');
+            } else {
+                // Se ESTIVER logado, garante que a página apareça
+                document.documentElement.style.display = 'block';
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia | Gouvêa</title>
