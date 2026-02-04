@@ -1198,6 +1198,7 @@ nav {
     overflow-y: scroll; 
     overflow-x: hidden; /* TRAVA o scroll horizontal */
     padding: 10px;
+    margin-left: -20px;
 }
 
 /* Estilo base do item (o retângulo que envolve cada serviço/produto) */
