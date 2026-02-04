@@ -226,3 +226,21 @@ window.onclick = function(event) {
         closeForgotModal();
     }
 }
+
+
+function togglePasswordVisibility(inputId, iconElement) {
+    const passwordInput = document.getElementById(inputId);
+    
+    // Troca o tipo do input
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        // Troca o ícone para o olho cortado
+        iconElement.classList.remove('fa-eye');
+        iconElement.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        // Volta para o ícone do olho aberto
+        iconElement.classList.remove('fa-eye-slash');
+        iconElement.classList.add('fa-eye');
+    }
+}

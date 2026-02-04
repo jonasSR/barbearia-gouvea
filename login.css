@@ -317,3 +317,20 @@ input:filter(autofill) {
     }
 }
 
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s, transform 0.2s;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: var(--accent, #c5a86d); /* Usa a cor dourada do seu sistema */
+}
+
+.toggle-password.fa-eye-slash {
+    color: var(--accent, #c5a86d);
+}
