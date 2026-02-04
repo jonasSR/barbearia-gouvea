@@ -47,22 +47,55 @@
     transition: all 0.2s ease-in-out;
 }
 
+html {
+    /* Força o zoom de 80% */
+    zoom: 0.8;
+    -moz-transform: scale(0.8);
+    -moz-transform-origin: 0 0;
+    
+    /* Garante que o fundo ocupe a tela toda sem barras pretas */
+    background: #0a0b0d; 
+    height: 125%; 
+    width: 125%;
+    overflow: hidden;
+}
+
 body {
     margin: 0; 
     font-family: 'Inter', sans-serif;
-    background-color: var(--bg-main); 
+    background-color: #0a0b0d; /* Sua cor de fundo */
     color: var(--text-primary);
     display: flex; 
-    height: 100vh; 
+    height: 100%; 
+    width: 100%;
     overflow: hidden;
-    
+    position: fixed; /* Impede qualquer movimento de "puxar" a tela */
 }
 
+/* ==========================================================================
+    4. ESTRUTURA DE CONTEÚDO (VIEWPORT E TABS)
+    ========================================================================== */
+/* --- VIEWPORT & TABS --- */
+.viewport { flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+
+.tab-content { 
+    display: none; 
+    height: 100%; 
+    padding: 20px 30px; /* Reduzido de 40px para aproveitar melhor o espaço */
+    overflow-y: auto; 
+}
+
+.tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
 /* --- SIDEBAR IGUAL À FOTO --- */
 .sidebar {
     width: 80px; /* Largura mais compacta e profissional */
-    height: 100vh;
+    height: 126vh;
     background: #0d1117; /* Cor escura profunda idêntica à imagem */
     display: flex;
     flex-direction: column;
@@ -152,26 +185,6 @@ nav {
 
 
 /* ==========================================================================
-    4. ESTRUTURA DE CONTEÚDO (VIEWPORT E TABS)
-    ========================================================================== */
-/* --- VIEWPORT & TABS --- */
-.viewport { flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-
-.tab-content { 
-    display: none; 
-    height: 100%; 
-    padding: 20px 30px; /* Reduzido de 40px para aproveitar melhor o espaço */
-    overflow-y: auto; 
-}
-
-.tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-@keyframes fadeIn { 
-    from { opacity: 0; transform: translateY(10px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
-
-/* ==========================================================================
     5. CABEÇALHOS E TÍTULOS (ESTILO GLASS E METÁLICO)
     ========================================================================== */
 /* --- HEADERS --- */
@@ -179,7 +192,7 @@ nav {
     display: grid; 
     justify-content: space-between; 
     align-items: flex-start; /* Alinhado ao topo */
-    margin-bottom: 100px; /* Reduzido de 20px */
+    margin-bottom: 80px; /* Reduzido de 20px */
     margin-top: -10px;    /* Puxa o conjunto para cima */
 }
 
@@ -318,65 +331,82 @@ nav {
     letter-spacing: 1px;
     border-left: 3px solid var(--accent);
     padding-left: 15px;
+    
+    /* A FAIXA DIRETO NO BACKGROUND - SEM ERRO */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 38px; /* Altura fixa para a faixa aparecer */
+    
+    background: linear-gradient(90deg, 
+        rgba(212, 175, 55, 0.2) 0%,   /* Cor inicial mais forte */
+        rgba(212, 175, 55, 0.05) 50%, 
+        transparent 95%               /* Some no final */
+    );
+    
+    /* Garante que nada corte a faixa */
+    overflow: visible;
 }
 
 .grid-layout { 
     display: grid; 
-    /* Ajusta o grid para não colidir com o display fixo na direita */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-    gap: 15px;
-    margin-right: 300px; /* Abre espaço para o display lateral */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 10px;
+    margin-right: 320px;
 }
 
 .item-card {
     background: #0c0d0e;
     border: 1px solid #1a1a1a;
     
-    /* DEFINIÇÃO DO CÍRCULO: Altura e Largura iguais */
-    width: 120px; 
-    height: 120px;
-    border-radius: 50%; /* Faz ficar redondo */
+    width: 100%; 
+    max-width: 200px;
+    height: 50px; 
+    border-radius: 8px;
     
     cursor: pointer;
-    text-align: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 4px; /* Reduzi o gap para caber melhor no círculo */
-    padding: 10px; /* Ajuste para o conteúdo não vazar */
-    margin: 0 auto; /* Centraliza no grid se necessário */
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0 15px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* O Ícone dentro do círculo */
+/* EFEITO DE HOVER SUTIL */
+.item-card:hover {
+    background: #141517; /* Clareia levemente o fundo */
+    border-color: var(--accent); /* A borda assume a cor de destaque */
+    transform: translateY(-2px); /* Elevação mínima */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
+                inset 0 0 10px rgba(212, 175, 55, 0.05); /* Brilho interno muito leve */
+}
+
 .item-card i {
-    font-size: 1.5rem; /* Reduzi levemente para harmonizar */
+    font-size: 1.1rem;
     color: var(--accent);
     transition: transform 0.3s ease;
 }
 
-.item-card:hover {
-    transform: translateY(-5px) scale(1.05); /* Efeito de zoom leve */
-    background: #121315;
-    border-color: var(--accent);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+/* Pequena animação no ícone ao passar o mouse */
+.item-card:hover i {
+    transform: scale(1.1);
 }
 
 .item-card strong {
-    display: block;
-    font-size: 0.55rem; /* Fonte menor para caber no formato redondo */
-    font-weight: 700;
-    color: #888;
+    font-size: 0.6rem;
+    color: #ffffff;
     text-transform: uppercase;
-    max-width: 80px; /* Evita que nomes longos quebrem o círculo */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    text-align: left;
+    flex: 1;
+    text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
 .item-card span {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 800;
     color: #ffffff;
 }
@@ -493,89 +523,103 @@ nav {
     transform: scale(1.02);
 }
 
-/* --- AÇÕES ADMIN --- */
+/* --- CONTAINER --- */
 .admin-actions-grid {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin: 40px 0;
-    perspective: 1000px;
+    gap: 30px;
+    margin: 50px 0;
 }
 
-.admin-card-action {
-    background: none;
-    padding: 0;
-    border: none;
+/* --- ESTILO BASE DO BOTÃO --- */
+.btn-modern {
+    position: relative;
+    width: 250px;
+    height: 60px;
+    background: #111; /* Fundo sólido escuro */
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Centro Vertical */
+    justify-content: center; /* Centro Horizontal */
+    overflow: hidden;
+    transition: all 0.4s ease;
+    padding: 0 20px;
 }
 
-.admin-card-action button {
-    width: 220px;
-    height: 70px;
+/* Centralização do Texto dentro do Botão */
+.btn-modern span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 2;
+    flex: 1;
+    text-align: center;
+}
+
+/* Estilo do Ícone Redondo */
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    background: rgba(255,255,255,.03);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 10px;
+    margin-right: 10px;
+    transition: 0.3s;
+    z-index: 2;
+}
+
+/* --- CORES ESPECÍFICAS --- */
+
+/* Botão Adicionar (Dourado/Accent) */
+.add-item:hover {
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+.add-item:hover .btn-icon {
+    background: #d4af37;
+    color: #000;
+}
+
+/* Botão Despesa (Vermelho) */
+.launch-expense:hover {
+    border-color: #ff4444;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.2);
+}
+.launch-expense:hover .btn-icon {
+    background: #ff4444;
     color: #fff;
-    font-size: .8rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 15px 35px rgba(0,0,0,.2);
-    transition: .4s cubic-bezier(.175,.885,.32,1.275);
 }
 
-.admin-card-action button:hover {
-    transform: translateY(-10px) rotateX(10deg);
-    background: rgba(255,255,255,.08);
-    border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(0,0,0,.4);
+/* --- EFEITO DE BRILHO AO PASSAR O MOUSE --- */
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    transition: 0.5s;
 }
 
-/* --- LISTAS E SCROLL CORRIGIDO --- */
-.admin-header-main {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    opacity: .7;
-    font-size: .9rem;
+.btn-modern:hover::before {
+    left: 100%;
 }
 
-.admin-grid-inner {
-    max-height: 400px; /* Altura fixa para permitir o scroll */
-    overflow-y: scroll; /* Força a existência da barra */
-    overflow-x: hidden;
-    padding-right: 10px;
-}
-
-/* Firefox */
-.admin-grid-inner {
-    scrollbar-width: thin;
-    scrollbar-color: #d4af37 rgba(255,255,255,0.05);
-}
-
-/* Chrome, Edge, Safari */
-.admin-grid-inner::-webkit-scrollbar {
-    width: 6px;
-    display: block !important;
-}
-
-.admin-grid-inner::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.admin-grid-inner::-webkit-scrollbar-thumb {
-    background: #d4af37; /* Cor sólida para garantir visibilidade */
-    border-radius: 10px;
-}
-
-.admin-grid-inner::-webkit-scrollbar-thumb:hover {
-    background: #f1c40f;
+/* Animação de clique */
+.btn-modern:active {
+    transform: scale(0.95);
 }
 
 /* --- ITEM PADRÃO --- */
@@ -632,160 +676,160 @@ nav {
 }
 
 /* ==========================================================================
-   9. ESTATÍSTICAS E RELATÓRIOS (TRAVA HORIZONTAL ABSOLUTA)
+   9. ESTATÍSTICAS E RELATÓRIOS (RE-DIMENSIONAMENTO COMPACTO)
    ========================================================================== */
-/* --- STATS & REPORTS --- */
-.stats-container { display: flex; flex-direction: column; gap: 15px; }
 
-.stats-row { 
-    display: flex;             /* Mudado para Flex para maior controle de linha */
-    flex-direction: row;       /* Garante direção horizontal */
-    flex-wrap: nowrap;         /* PROÍBE terminantemente a quebra de linha */
+/* Container Principal - Ajustado para ocupar melhor a tela */
+.stats-container { 
+    display: flex; 
+    flex-direction: column; 
     gap: 12px; 
     width: 100%;
-    justify-content: center;
+    max-width: 1400px; /* Evita que espalhe demais em monitores UltraWide */
+    margin: 0 auto;
 }
 
+/* Linhas de cards - Agora com flex-wrap para responsividade controlada */
+.stats-row { 
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    width: 100%;
+    justify-content: flex-start;
+}
+
+/* Estilo Base dos Cards - Reduzido */
 .report-card {
     background: var(--card-bg); 
     border: 1px solid var(--border);
-    padding: 15px; 
+    padding: 12px; /* Reduzido de 15px */
     border-radius: 10px;
-    
-    /* Faz cada card ocupar exatamente o mesmo espaço (1/4 da linha) */
     flex: 1; 
-    min-width: 0;              /* Permite que o card encolha para caber */
-    max-width: calc(25% - 9px); /* Trava matemática para 4 cards na horizontal */
-    
+    min-width: 180px; /* Garante que não fiquem triângulos em telas pequenas */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
 }
 
-/* O card do gráfico (distribuição) deve ficar FORA do .stats-row ou em um container separado */
-/* Caso ele esteja no mesmo container, usamos esta regra para ele ocupar a linha de baixo sozinho */
+
+
+/* Card de Gráfico (Ocupa mais espaço mas mantém proporção) */
 .report-card.full { 
-    flex: none;
-    width: 50%;
-    max-width: 100%;
-    margin-top: 5px;
+    flex: 2;
+    min-width: 350px;
 }
+
+/* Tipografia Micro-ajustada */
+.report-card h1 { font-size: 1.1rem; margin-bottom: 2px; }
+.report-card p { font-size: 0.7rem; color: var(--text-secondary); margin: 0; }
 
 .report-card h2 { 
-    font-size: 1.1rem; 
-    margin: 2px 0; 
+    font-size: 1rem; /* Reduzido para não gritar na tela */
+    margin: 4px 0; 
     font-weight: 800;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Se o número for muito grande, ele coloca ... em vez de quebrar */
 }
 
 .report-card h3 { 
-    margin-bottom: 8px; 
-    font-size: 0.62rem; 
+    margin-bottom: 6px; 
+    font-size: 0.65rem; 
     color: var(--text-secondary); 
     display: flex; 
-    gap: 6px; 
+    gap: 5px; 
     align-items: center; 
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    white-space: nowrap;
 }
 
-.positive { color: var(--success); font-size: 0.7rem; font-weight: 600; }
+.report-card small {
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
 
-/* Gráficos de Barra Customizados */
-.chart-mock { display: flex; flex-direction: column; gap: 10px; } 
+/* Footer dos Cards (Vendas | Gastos) */
+.card-footer-info {
+    display: flex;
+    gap: 8px;
+    font-size: 0.65rem;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Gráficos de Barra Customizados (Mais finos) */
+.chart-mock { display: flex; flex-direction: column; gap: 6px; } 
 .chart-item { 
     display: grid; 
-    grid-template-columns: 80px 1fr 60px; /* Reduzido para caber em cards menores */
+    grid-template-columns: 85px 1fr 55px; 
     align-items: center; 
-    gap: 10px; 
-    font-size: 0.72rem;
+    gap: 8px; 
+    font-size: 0.65rem; /* Fonte pequena para relatórios */
 }
 
-.bar-bg { background: rgba(255,255,255,0.05); height: 6px; border-radius: 10px; overflow: hidden; } 
-.bar-fill { height: 100%; border-radius: 10px; width: 0%; transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+.bar-bg { background: rgba(255,255,255,0.05); height: 5px; border-radius: 4px; overflow: hidden; } 
+.bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease-in-out; }
 
-.bar-fill.blue { background: var(--info); box-shadow: 0 0 8px rgba(59, 130, 246, 0.2); }
-.bar-fill.green { background: var(--success); box-shadow: 0 0 8px rgba(197, 168, 109, 0.2); }
-.bar-fill.red { background: var(--danger); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
+.val-label { font-weight: 700; text-align: right; font-size: 0.65rem; color: #fff; }
 
-.val-label { font-weight: 700; text-align: right; font-family: 'Inter'; font-size: 0.72rem; }
-
-/* Botões Compactos */
-.btn-outline {
-    background: transparent; 
-    border: 1px solid var(--border); 
-    color: white;
-    padding: 6px 12px; 
-    border-radius: 8px; 
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.btn-outline:hover { background: var(--accent); color: black; border-color: var(--accent); }
-/* 1. Card Externo */
-.detail-card-scroll {
-    flex: 1;
-    min-width: 300px;
-    height: 420px; 
+/* Pizza SVG */
+.pizza-chart-container {
     display: flex;
-    flex-direction: column;
-    overflow: hidden; 
-    position: relative; /* Adicionado para garantir contexto */
+    justify-content: center;
+    align-items: center;
+}
+.pizza-svg { width: 100px !important; height: 100px !important; }
+
+/* Botões e Filtros Compactos */
+.filter-group .filter-btn {
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
 }
 
-/* 2. Container de Dados (Onde o JS atua) */
-.side-data-container {
-    display: none; /* Seu JS muda para 'flex' */
-    flex-direction: column;
-    /* Troque height: 100% por uma trava absoluta de flexbox */
-    flex: 1; 
-    min-height: 0; 
-    padding: 15px;
-    overflow: hidden; 
+.filter-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
 }
 
-/* 3. A DIV da Lista (O Scroll) */
-#side-list {
+/* Scrollbars das Listas de Detalhes */
+#daily-history-list, #side-list {
     flex: 1;
-    overflow-y: auto !important; /* Força a rolagem */
-    overflow-x: hidden;
-    min-height: 0; 
-    display: block; /* MUDANÇA: display: block facilita o cálculo de scroll do navegador */
-    margin-top: 10px;
+    overflow-y: auto !important;
+    max-height: 250px; /* Trava a altura para não crescer a tela */
+    padding-right: 5px;
 }
 
-/* Estilos de item para garantir que ocupem espaço */
-#side-list > div {
-    margin-bottom: 8px; /* Substitui o gap do flex */
-    width: 100%;
-}
-
-/* Forçar a barra a aparecer sempre para teste */
+#daily-history-list::-webkit-scrollbar, 
 #side-list::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
+
+#daily-history-list::-webkit-scrollbar-thumb,
 #side-list::-webkit-scrollbar-thumb {
-    background-color: var(--accent);
+    background: var(--border);
     border-radius: 10px;
 }
 
-/* ==========================================================================
-   1. POSICIONAMENTO DA SEÇÃO (Mexa aqui para subir/descer a seção toda)
-   ========================================================================== */
-.analytics-section {
-    margin-top: 40px;      /* Espaço acima da seção */
-    margin-bottom: 40px;   /* Espaço abaixo da seção */
-    padding: 0 15px;
-}
+/* Ajustes de Cores das Barras */
+.bar-fill.blue { background: #3b82f6; }
+.bar-fill.green { background: #10b981; }
+.bar-fill.red { background: #ef4444; }
 
-.section-title-minimal {
-    margin-bottom: 25px;
-}
+/* Labels de Categoria Selecionada */
+#side-title-active { font-size: 1.1rem !important; }
+#side-count { font-size: 0.8rem !important; padding: 4px 10px !important; }
+
+/* Utilitários */
+.positive { color: var(--success); font-weight: 600; }
+.text-danger { color: var(--danger); }
 
 /* ==========================================================================
    2. CARD PRINCIPAL (Fundo e Bordas)
@@ -1022,7 +1066,7 @@ nav {
 /* Container do Título - MANTIDO ORIGINAL */
 .glass-header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 800;
     margin: 0;
     letter-spacing: -1.5px;
@@ -1143,49 +1187,71 @@ nav {
 }
 
 /* ==========================================================================
-   15. GRIDS INTERNOS E ESTILOS DE ITENS ESPECÍFICOS
+   15. GRIDS INTERNOS E ESTILOS DE ITENS ESPECÍFICOS (COMPACTO)
    ========================================================================== */
-/* Grid Interno para os itens da Admin */
+
 .admin-grid-inner {
     display: grid;
-    grid-template-columns: 1fr; /* Lista de uma coluna para leitura rápida */
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px; /* Diminuído de 10px para 8px */
+    max-height: 400px;
+    overflow-y: scroll; 
+    overflow-x: hidden; /* TRAVA o scroll horizontal */
+    padding: 10px;
 }
 
-/* Título Geral do Card Admin */
+/* Estilo base do item (o retângulo que envolve cada serviço/produto) */
+.admin-grid-inner > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px; /* Reduzido para ocupar menos espaço vertical */
+    font-size: 0.85rem; /* Fonte menor para não "explodir" na tela */
+}
+
+/* Ajuste nos textos para não quebrarem o layout */
+.admin-grid-inner span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Se o nome for gigante, ele coloca "..." em vez de criar scroll */
+    max-width: 120px; /* Limita a largura do nome */
+}
+
+/* Ajuste nos botões de editar/excluir para ficarem menores */
+.admin-grid-inner button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+
+/* Título Geral do Card Admin (Menos espaço para subir a lista) */
 .admin-header-main {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.75rem; /* Título um pouco menor */
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px; /* Reduzido de 40px para 20px para ganhar espaço */
     opacity: 0.6;
 }
 
-
-/* --- ESTILO PARA SERVIÇOS (DOURADO) --- */
+/* --- ESTILOS DE CORES MANTIDOS --- */
 .item-servico {
-    border-left: 5px solid var(--accent) !important; /* Borda um pouco mais grossa */
+    border-left: 4px solid var(--accent) !important;
     background: linear-gradient(90deg, rgba(197, 168, 109, 0.08) 0%, transparent 100%);
 }
 
-.item-servico .item-price-tag {
-    color: var(--accent);
-    text-shadow: 0 0 10px rgba(197, 168, 109, 0.3);
-}
-
-/* --- ESTILO PARA PRODUTOS (PRATA/GELO) --- */
 .item-produto {
-    border-left: 5px solid #a1a1aa !important; 
+    border-left: 4px solid #a1a1aa !important; 
     background: linear-gradient(90deg, rgba(161, 161, 170, 0.08) 0%, transparent 100%);
 }
 
-.item-produto .item-price-tag {
-    color: #e4e4e7;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+.item-price-tag {
+    font-size: 0.8rem; /* Preço um pouco menor para caber na linha */
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 10px;
 }
 
 /* ==========================================================================
@@ -1320,3 +1386,682 @@ body:not(.luxury-login) {
     background-color: #4b4b62;
     border-radius: 10px;
 }
+
+
+
+
+
+.btn-movivel-extra {
+    /* --- POSICIONAMENTO FIXO E ESTÁTICO --- */
+    position: absolute; /* Torna o botão independente do fluxo de texto */
+    left: 200px;        /* Ajuste este valor para a posição exata que ele deve travar */
+    top: 50%;
+    transform: translateY(-50%); /* Garante centralização vertical na faixa */
+
+    /* --- ESTILO VISUAL REFINADO (Mantido conforme seu pedido) --- */
+    background: rgba(255, 255, 255, 0.1); 
+    color: #d4af37; 
+    border: 1px solid rgba(212, 175, 55, 0.5); 
+    padding: 6px 16px; 
+    border-radius: 8px; 
+    
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    backdrop-filter: blur(2px);
+}
+
+.btn-movivel-extra:hover {
+    background: #d4af37;
+    color: #000;
+    transform: translateY(-52%); /* Mantém o ajuste de altura no hover */
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.btn-movivel-extra i {
+    font-size: 0.8rem;
+}
+
+/* --- SEU CÓDIGO DE INPUT (MANTIDO E LIMPO) --- */
+#manualExtraValue {
+    background: transparent !important;
+    border: 1px solid rgba(212, 175, 55, 0.5) !important;
+    color: white !important;
+    outline: none !important;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+#manualExtraValue::-webkit-outer-spin-button,
+#manualExtraValue::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.opcoes-servico {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.opcao-item {
+    background: #141517;
+    border: 1px solid #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.opcao-item:hover {
+    border-color: var(--accent);
+    background: rgba(212, 175, 55, 0.05);
+    transform: scale(1.02);
+}
+
+.input-nome-selecionado {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    pointer-events: none; /* Impede edição */
+}
+
+/* Remove setas de navegadores que ainda tentarem mostrar */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+
+
+/* Container Principal - Reduzido */
+.modal-horizontal {
+    max-width: 600px !important; /* Estreitado */
+    width: 90%;
+    background: #121212 !important;
+    padding: 15px 20px !important; /* Menos respiro */
+    border-radius: 12px;
+}
+
+/* Título menor */
+.modal-horizontal h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Divisão de Colunas */
+.horizontal-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Coluna da direita levemente maior */
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Estilo do Card de Preview (Esquerda) - Menor e sem min-height gigante */
+.side-left {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#salePreview {
+    font-size: 0.9rem; /* Fonte menor para o resumo */
+}
+
+/* Rótulos pequenos */
+.form-label {
+    color: #666;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+/* Grade de Botões de Pagamento - Mais densa */
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.pay-btn {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 8px 5px; /* Bem mais baixo */
+    color: #ccc;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row; /* Ícone ao lado do texto para economizar altura */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.pay-btn i {
+    font-size: 0.9rem;
+}
+
+.pay-btn span {
+    font-size: 0.75rem;
+}
+
+/* Estado Ativo */
+.pay-btn.active {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.05);
+    color: #d4af37;
+}
+
+/* Botões de Ação Final - Compactos */
+.modal-actions {
+    display: flex;
+    gap: 8px; /* Lado a lado em vez de um sobre o outro */
+}
+
+#btnConfirmarFinal {
+    flex: 2;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    height: 38px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    /* ISSO GARANTE O CENTRO PERFEITO */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0; /* Remove paddings que podem empurrar o texto */
+}
+
+.btn-outline {
+
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    height: 38px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    /* APLICAR O MESMO AQUI */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+}
+
+.btn-outline:hover {
+    border-color: #ff4444;
+    color: #ff4444;
+}
+
+
+.btn-doces-balas {
+    /* --- POSICIONAMENTO TOTALMENTE FIXO --- */
+    position: absolute; 
+    left: 160px;        /* Distância fixa da esquerda */
+    top: 453px;          /* VALOR EM PX: Ajuste este número para subir ou descer o botão */
+    
+    /* Impedir que o zoom mova o botão */
+    transform: none !important; /* Removemos o translate para ele não "dançar" no zoom */
+    
+    /* --- SEU ESTILO VISUAL REFINADO (MANTIDO) --- */
+    background: rgba(255, 255, 255, 0.1); 
+    color: #d4af37; 
+    border: 1px solid rgba(212, 175, 55, 0.5); 
+    padding: 6px 16px; 
+    border-radius: 8px; 
+    
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    backdrop-filter: blur(2px);
+}
+
+.btn-doces-balas:hover {
+    background: #d4af37; 
+    color: #000;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+/* Feedback para toque no mobile */
+.btn-doces-balas:active {
+    transform: scale(0.95);
+}
+
+
+.btn-doces-balas i {
+    font-size: 0.7rem; /* Um pouco maior para aparecer as cores */
+    
+    /* --- EFEITO LISTRADO VERMELHO E BRANCO --- */
+    background: repeating-linear-gradient(
+        45deg,
+        #ff0000,          /* Vermelho */
+        #ff0000 4px,      /* Espessura da lista */
+        #ffffff 4px,      /* Branco */
+        #ffffff 8px       /* Espessura da lista */
+    );
+    
+    /* Faz o fundo aparecer apenas no formato do ícone */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Sombra leve para o branco não sumir no fundo */
+    filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+   BOTÃO PREMIUM
+========================= */
+.btn-premium {
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    background: var(--accent);
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-premium:hover {
+    opacity: .9;
+    transform: scale(1.02);
+}
+
+.btn-premium:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   GRID DE MENSALISTAS
+========================= */
+.grid-mensalistas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 25px;
+}
+
+/* =========================
+   CARD CLIENTE
+========================= */
+.card-cliente {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.card-cliente:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.info-cliente h4 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.info-cliente p {
+    color: #888;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+/* =========================
+   STATUS BADGE
+========================= */
+.status-badge {
+    color: #bc9c5f;
+    font-size: 0.65rem;
+    font-weight: bold;
+    border: 1px solid #bc9c5f;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+/* =========================
+   LAYOUT BASE (ALTURA FIXA)
+========================= */
+.layout-premium {
+    display: flex;
+    gap: 30px;
+    padding: 0 30px 100px 30px; /* Zero no topo, 30px laterais, 10px base */
+    height: 66vh; 
+    box-sizing: border-box;
+    overflow: hidden; 
+    align-items: flex-start;
+}
+
+.col-acoes {
+    flex: 1;
+    margin-top: 0; /* Removido os 5px para subir totalmente */
+}
+
+/* =========================
+   PAINEL FOCADO (SCROLL INTERNO)
+========================= */
+.painel-focado-lista {
+    width: 900px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    margin-left: auto;
+    overflow: hidden;
+}
+
+/* HEADER FIXO */
+.painel-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #333;
+    color: #bc9c5f;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+/* LISTA COM SCROLL */
+.scroll-lista {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+/* =========================
+   CARD MENSALISTA
+========================= */
+.card-mensalista {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.card-mensalista:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+/* =========================
+   SCROLLBAR PREMIUM
+========================= */
+.scroll-lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-lista::-webkit-scrollbar-thumb {
+    background: #bc9c5f;
+    border-radius: 4px;
+}
+
+.scroll-lista::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+/* =========================
+   FORMULÁRIO SLIM 2 COLUNAS
+========================= */
+.formulario-direto {
+    background: #111;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #222;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide em 2 colunas */
+    gap: 12px;
+    max-width: 500px; /* Evita que ele estique demais horizontalmente */
+}
+
+/* Campos que ocupam a linha toda */
+.input-full {
+    grid-column: span 2;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.65rem;
+    color: #bc9c5f; /* Destaque sutil no label */
+    margin-bottom: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.input-group input, 
+.input-group select {
+
+    padding: 8px 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Remove o fundo branco do preenchimento automático */
+.input-group input:-webkit-autofill,
+.input-group input:-webkit-autofill:hover, 
+.input-group input:-webkit-autofill:focus,
+.input-group select:-webkit-autofill,
+.input-group select:-webkit-autofill:hover,
+.input-group select:-webkit-autofill:focus {
+    -webkit-text-fill-color: white !important; /* Cor do texto */
+    -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset !important; /* Cor do fundo (#1a1a1a) */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Garante que o texto continue branco ao focar */
+.input-group input:focus {
+    border-color: #bc9c5f;
+}
+
+.input-group input:focus, 
+.input-group select:focus {
+    border-color: #bc9c5f;
+}
+
+/* Ajuste específico para o calendário dark */
+.input-date-dark {
+    color-scheme: dark;
+}
+
+/* Container de botões */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-cancelar {
+    flex: 1;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.75rem;
+    transition: 0.2s;
+}
+
+.btn-cancelar:hover {
+    background: #444;
+}
+
+.btn-premium {
+    flex: 2; /* Botão principal maior que o cancelar */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Container da Linha */
+.row-mensalista {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1fr 1fr 0.5fr;
+    gap: 10px;
+    padding: 8px 15px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    align-items: center;
+    transition: transform 0.2s ease;
+    border-left: 4px solid transparent; /* A cor vem do JS */
+}
+
+.row-mensalista:hover {
+    filter: brightness(1.2);
+    transform: translateX(2px);
+}
+
+/* Coluna de Nome e Telefone */
+.col-main strong {
+    display: block;
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+.col-main small {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+/* Colunas de Informação (Data, Plano, Líquido) */
+.col-info {
+    color: #eee;
+    font-size: 0.75rem;
+    line-height: 1.2;
+}
+
+.col-info span {
+    display: block;
+    font-size: 0.55rem;
+    color: #777;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+/* Destaques Específicos */
+.status-venc {
+    font-weight: 600;
+}
+
+.badge-status {
+    display: block;
+    font-size: 0.5rem !important;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.valor-destaque {
+    color: #d4af37 !important; /* Dourado para o Valor Líquido */
+    font-weight: bold;
+}
+
+/* Botão de Ação */
+.col-actions {
+    text-align: right;
+}
+
+.btn-edit {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: #fff;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-edit:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+

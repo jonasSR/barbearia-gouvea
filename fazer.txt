@@ -1,0 +1,5 @@
+Botão doce (abre input) - cadastrar OK
+Resumo do período colocar total barba, pezinho e sombrancelha OK
+Botão serviço extra na home com valores manuais OK
+Corrigir fechamento liquido, esta aparecendo os gastos quando lanço despesas OK
+Botão editar e excluir despesas OK

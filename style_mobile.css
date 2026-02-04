@@ -145,78 +145,73 @@
         right: 0;
     }
 
-   /* ===================================================== */
-/* MENU CONTENT - VERSÃO PREMIUM */
+/* ===================================================== */
+/* MENU LATERAL - ULTRA MODERN GLASSMorphism */
 /* ===================================================== */
 
 .mobile-menu {
-    padding: 30px 20px;
-    background: #121212; /* Fundo bem escuro para o menu */
+    padding: 40px 20px;
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(10px); /* Efeito de vidro moderno */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .mobile-menu h3 {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    color: #c5a86d; /* Dourado da barbearia */
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(197, 168, 109, 0.2);
-    display: inline-block;
-    width: 100%;
+    letter-spacing: 5px;
+    color: #c5a86d;
+    margin-bottom: 35px;
+    border-left: 3px solid #c5a86d;
+    padding-left: 15px;
 }
 
 .mobile-menu nav {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px; /* Espaçamento menor para visual mais limpo */
 }
 
 .mobile-menu nav button {
-    background: rgba(255, 255, 255, 0.03); /* Fundo sutil */
-    border: 1px solid rgba(197, 168, 109, 0.15); /* Borda dourada bem fina */
-    color: #e0e0e0;
-    padding: 16px 18px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 500;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #f0f0f0;
+    padding: 18px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-align: left;
+    justify-content: flex-start;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Efeito ao clicar/ativo */
-.mobile-menu nav button:active, 
+/* Efeito de seleção moderno */
+.mobile-menu nav button:active,
 .mobile-menu nav button.active {
-    background: rgba(197, 168, 109, 0.12);
-    border-color: #c5a86d;
-    color: #c5a86d;
-    transform: scale(0.98);
+    background: #c5a86d;
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(197, 168, 109, 0.2);
 }
 
 .mobile-menu nav button i {
-    font-size: 1.1rem;
-    color: #c5a86d;
-    width: 24px; /* Garante que o texto fique alinhado */
-    text-align: center;
+    font-size: 1.2rem;
+    width: 30px;
+    text-align: left;
 }
 
-/* BOTÃO SAIR DESTACADO (Igual à imagem) */
+/* BOTÃO SAIR ESTILO "CLEAN DANGER" */
 .mobile-menu nav button.logout-btn {
-    margin-top: 20px;
-    background: linear-gradient(135deg, #631e1e 0%, #411414 100%);
-    border: none;
-    color: #ffcccc;
-    justify-content: center; /* Centraliza o texto "Sair" */
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.mobile-menu nav button.logout-btn i {
-    color: #ffcccc;
+    margin-top: auto; /* Empurra para o rodapé */
+    background: rgba(255, 75, 75, 0.1);
+    border: 1px solid rgba(255, 75, 75, 0.2);
+    color: #ff4b4b;
+    justify-content: center;
+    letter-spacing: 2px;
 }
 
     /* ===================================================== */
@@ -368,6 +363,7 @@
     .display-header span {
         font-size: 0.55rem;
     }
+    
 
     /* Esconde o display caso queira liberar espaço (Opcional) */
     /* Você pode adicionar uma classe .minimized via JS */
@@ -382,76 +378,101 @@
     .display-body h2 {
         font-size: 1.5rem;
     }
+    
 }
 
-/* --- ADAPTAÇÃO MOBILE: CARROSSEL HORIZONTAL --- */
+/* --- ADAPTAÇÃO MOBILE: CARROSSEL COM 2 LINHAS --- */
 @media (max-width: 768px) {
-    /* 1. Transformamos o Grid em um container de rolagem horizontal */
+    /* 1. Container de Rolagem */
     .grid-layout { 
         margin-right: 0 !important; 
-        padding: 10px 20px;
-        display: flex;             /* Mudamos de grid para flex */
-        flex-wrap: nowrap;        /* Impede que os itens pulem para a linha de baixo */
-        overflow-x: auto;         /* Ativa a rolagem lateral */
-        gap: 15px;
+        padding: 10px 15px;
+        display: flex;             
+        flex-flow: column wrap;    /* Organiza em colunas e quebra para o lado */
+        height: 175px;             /* Ajuste leve na altura para acomodar 2 linhas com folga */
+        overflow-x: auto;         
+        overflow-y: hidden;        
+        gap: 8px;
         scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+        -webkit-overflow-scrolling: touch; 
         
-        /* Máscara visual para indicar que tem mais itens (seta ou gradiente) */
-        mask-image: linear-gradient(to right, black 85%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
     }
 
-    /* Esconde a barra de rolagem padrão para ficar mais limpo */
     .grid-layout::-webkit-scrollbar {
         display: none;
     }
 
-    /* 2. Ajustamos o card para manter o tamanho fixo dentro do carrossel */
+    /* 2. O Card (Retangular Compacto) */
     .item-card {
-        flex: 0 0 100px;   /* Não deixa o card esticar ou encolher, trava em 100px */
-        width: 100px;
-        aspect-ratio: 1/1; 
-        height: 100px;
-        border-radius: 50%;
-        padding: 5px;
-        gap: 2px;
+        flex: 0 0 calc(50% - 8px); 
+        width: 165px;              /* Aumentei levemente a largura para o texto caber melhor */
+        border-radius: 10px; 
+        padding: 8px 10px;
+        display: flex;
+        flex-direction: row; 
+        align-items: center;
+        justify-content: flex-start; /* Alinhamento firme à esquerda */
+        gap: 8px;                  /* Espaço reduzido entre ícone e texto */
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(212, 175, 55, 0.3);
     }
 
+    /* Redução drástica do ícone para ganhar espaço */
     .item-card i {
-        font-size: 1.1rem;
+        font-size: 0.75rem !important; /* Ícone bem menor conforme solicitado */
+        color: var(--accent);
+        flex-shrink: 0;
+        width: 15px;               /* Largura fixa para o ícone não empurrar o resto */
+        text-align: center;
+    }
+
+    .item-card .item-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+        flex: 1;                   /* Ocupa todo o resto do botão */
+    }
+
+    /* Ajuste para o texto não sumir */
+    .item-card strong {
+        font-size: 0.55rem !important;
+        text-transform: uppercase;
+        color: #fff;
+        line-height: 1.1;
+        white-space: normal !important; /* Permite quebra de linha */
+        overflow: visible !important;
+        word-wrap: break-word;
+        display: block;
         margin-bottom: 2px;
     }
 
-    .item-card strong {
-        font-size: 0.5rem;
-        max-width: 80%;
-        white-space: normal; /* Permite quebrar linha se o nome for grande */
-        line-height: 1.1;
-    }
-
     .item-card span {
-        font-size: 0.75rem;
+        font-size: 0.7rem !important;
+        font-weight: 800;
+        color: #fff;
+        display: block;
     }
 
-    /* 3. Indicador visual de "Arraste" (Seta) */
+    /* 3. Indicador de Arraste */
     .section-title::after {
-        content: 'ARRASTE \2192'; /* Seta Unicode → */
+        content: 'ARRASTE \2192';
         font-size: 0.5rem;
         float: right;
         color: var(--accent);
-        opacity: 0.6;
-        letter-spacing: 1px;
-        margin-right: 20px;
+        opacity: 0.7;
+        font-weight: bold;
+        margin-right: 15px;
         animation: pulseArrow 2s infinite;
     }
 }
 
 @keyframes pulseArrow {
-    0%, 100% { opacity: 0.3; transform: translateX(0); }
-    50% { opacity: 1; transform: translateX(5px); }
+    0%, 100% { transform: translateX(0); opacity: 0.4; }
+    50% { transform: translateX(5px); opacity: 1; }
 }
-
 
 /* ==========================================================================
    ADMINISTRATIVO - REVISÃO PREMIUM MOBILE
@@ -587,12 +608,9 @@
         border-radius: 15px;
         font-size: 0.9rem;
     }
+
+    
 }
-
-
-
-
-
 
 
 /* Estilo dos Contadores */
@@ -804,3 +822,257 @@ body.light-theme .mobile-menu h3 {
     color: var(--text-primary);
     border-bottom: 1px solid var(--border);
 }
+
+
+
+@media (max-width: 1199px) {
+    /* 1. LIBERAR SCROLL NO CORPO DA PÁGINA */
+    body, html {
+        overflow-y: auto !important;
+        overflow-x: hidden !important; /* Evita que a tela dance para os lados */
+        height: auto !important;
+        min-height: 100vh;
+    }
+
+    /* 2. AJUSTE NA VIEWPORT PARA NÃO TRAVAR CONTEÚDO */
+    .viewport {
+        overflow-y: visible !important;
+        display: block !important;
+        padding-bottom: 120px !important; /* Espaço extra para não cobrir o conteúdo com a Tab Bar */
+    }
+
+    /* 3. CASO VOCÊ TENHA UM CONTAINER DE ADMINISTRAÇÃO */
+    .admin-container, 
+    .mobile-content {
+        overflow-y: visible !important;
+        height: auto !important;
+    }
+}
+
+
+
+/* --- VERSÃO MOBILE (Ajustes para Celular) --- */
+@media (max-width: 768px) {
+
+    .btn-movivel-extra {
+        /* Ajuste para o botão extra de serviços no mobile */
+        left: 260px !important;
+        top: 45% !important;
+        padding: 4px 10px !important;
+        font-size: 0.55rem !important;
+    }
+    
+    .btn-doces-balas {
+        /* No mobile, o left e o top precisam ser menores */
+        left: 280px !important; 
+        top: 514px !important; /* Ajuste este valor conforme a altura da sua seção de produtos no celular */
+        padding: 4px 10px !important; /* Um pouco menor para caber na tela */
+        font-size: 0.55rem !important;
+    }
+
+    /* Reduz um pouco o ícone para não poluir a tela pequena */
+    .btn-doces-balas i, .btn-movivel-extra i {
+        font-size: 0.65rem !important;
+    }
+}
+
+
+
+
+
+
+/* =================================================
+   SOLUÇÃO MOBILE DEFINITIVA: RESPIRAÇÃO E DINAMISMO
+   ================================================= */
+@media (max-width: 768px) {
+    :root {
+        --accent: #bc9c5f;
+        --tax-gold: #d4af37;
+        --bg-dark: #000000;
+        /* A cor do card não é fixa para respeitar o status do JS */
+    }
+
+    /* 1. RESET DE FLUXO E SCROLL */
+    html, body {
+        background-color: var(--bg-dark) !important;
+        height: auto !important; 
+        overflow-y: auto !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 2. OCULTAR CABEÇALHOS DE TABELA (ESMAGAM NO MOBILE) */
+    .tabela-header, 
+    .painel-header {
+        display: none !important;
+    }
+
+    /* 3. LAYOUT DO CONTAINER */
+    .layout-premium {
+        display: flex;
+        flex-direction: column;
+        padding: 12px !important;
+        height: auto !important;
+        gap: 15px;
+    }
+
+    .painel-focado-lista {
+        width: 100% !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        overflow: visible !important;
+    }
+
+    /* Título opcional para substituir o cabeçalho da tabela */
+    .painel-focado-lista::before {
+        content: "LISTA DE MENSALISTAS";
+        display: block;
+        padding: 10px;
+        text-align: center;
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        opacity: 0.7;
+    }
+
+    /* 4. DESIGN DO CARD (FLEXÍVEL E SEM COR FIXA) */
+    .row-mensalista {
+        /* O background-color é definido dinamicamente pelo seu script */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-left: 5px solid var(--accent) !important;
+        border-radius: 12px !important;
+        padding: 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        height: auto !important;
+        position: relative !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        align-items: flex-start;
+  
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 15px 10px !important; /* Espaço entre linhas e colunas */
+        width: 100% !important;
+        margin-top: 10px !important;
+    
+    }
+    
+
+    /* Nome do Cliente (Topo) */
+    .col-main {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 8px;
+        width: 100%;
+        padding-right: 40px; /* Espaço para o botão de edit */
+    }
+
+    .col-main strong {
+        font-size: 1.1rem !important;
+        color: #fff !important;
+        text-transform: uppercase;
+        display: block;
+    }
+
+    .col-main small {
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-size: 0.8rem;
+    }
+
+    /* 5. GRID DE INFO (2 COLUNAS PARA NÃO CORTAR VALORES) */
+    .info-container-mobile {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+
+    .col-info {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Labels internas (Tax Rates inclusas no contexto) */
+    .col-info span {
+        display: block !important;
+        font-size: 0.6rem !important;
+        color: var(--accent) !important;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+
+    .col-info {
+        font-size: 0.9rem !important;
+        color: #fff !important;
+    }
+
+    /* Valor Líquido em Destaque */
+    .valor-destaque {
+        font-size: 1rem !important;
+        color: var(--tax-gold) !important;
+        font-weight: 800 !important;
+    }
+
+    /* 6. BOTÃO DE EDIÇÃO (POSIÇÃO FIXA NO CARD) */
+    .btn-edit {
+        position: absolute !important;
+        top: 115px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: var(--accent) !important;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        z-index: 5;
+    }
+
+   
+}
+/* =================================================
+   RESPONSIVIDADE: FORMULÁRIO SLIM
+   ================================================= */
+@media (max-width: 768px) {
+    .formulario-direto {
+        /* Remove o limite de largura e passa para 1 coluna */
+        max-width: 100%;
+        grid-template-columns: 1fr; 
+        padding: 20px;
+        gap: 15px;
+    }
+
+    /* Força todos os campos a ocuparem a linha inteira */
+    .input-group, 
+    .input-full {
+        grid-column: span 1;
+    }
+
+    /* Melhora a área de toque (Touch Target) */
+    .input-group input, 
+    .input-group select {
+        width: 100%;
+        padding: 12px; /* Aumento sutil para facilitar o clique */
+        font-size: 16px; /* Evita que o iOS dê zoom automático ao focar */
+    }
+
+    /* Empilha os botões para não ficarem espremidos */
+    .form-actions {
+        flex-direction: column; 
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .btn-cancelar, 
+    .btn-premium {
+        width: 100%;
+        padding: 12px; /* Botões mais robustos para o polegar */
+        flex: none; /* Remove a proporção 1:2 para ficarem iguais */
+    }
+}
+
