@@ -1971,16 +1971,6 @@ input[type=number] {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 /* Container da Linha */
 .row-mensalista {
     display: grid;
@@ -2066,3 +2056,137 @@ input[type=number] {
 }
 
 
+.mini-support-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    width: fit-content;
+    
+    /* CORREÇÃO PARA NÃO CRIAR BARRA LATERAL */
+    position: fixed;
+    bottom: 1px;
+    right: 18px;
+    z-index: 9999;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #444;
+    transition: all 0.3s ease;
+}
+
+/* FORÇAR VERDE */
+.mini-support-bar .status-dot.active {
+    background: #00ff88 !important;
+    box-shadow: 0 0 8px #00ff88 !important;
+}
+
+/* FORÇAR VERMELHO */
+.mini-support-bar .status-dot.expired {
+    background: #ff4444 !important;
+    box-shadow: 0 0 8px #ff4444 !important;
+}
+
+#support-label {
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+}
+
+#support-label b {
+    color: #aaa;
+    font-weight: 600;
+}
+
+/* POPUP DE BOAS-VINDAS - DESKTOP */
+#welcome-modal.modal-overlay {
+    display: none; /* Controlado pelo JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease;
+}
+
+.welcome-card {
+    background: linear-gradient(145deg, #1a1c1f, #0a0b0d);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 
+                inset 0 0 15px rgba(255, 255, 255, 0.02);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Detalhe decorativo no topo */
+.welcome-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+.welcome-card .metallic-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.welcome-card p {
+    line-height: 1.6;
+    color: #888;
+    margin: 20px 0 30px 0;
+    font-size: 1.05rem;
+}
+
+.welcome-card b {
+    color: #d4af37; /* Dourado Nexo Digital */
+    font-weight: 600;
+}
+
+.welcome-card .btn-confirm {
+    width: 100%;
+    padding: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.welcome-card .btn-confirm:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}

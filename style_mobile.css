@@ -1116,3 +1116,39 @@ body.light-theme .mobile-menu h3 {
     position: relative !important;
     white-space: nowrap !important;
 }
+
+@media (max-width: 768px) {
+    /* Tenta esconder o ONLINE buscando por texto se a classe falhar */
+    .online-status, .ONLINE, #online-label, [class*="online" i] { 
+        display: none !important; 
+    }
+
+    .mini-support-bar {
+        display: flex !important;
+        align-items: center;
+        gap: 4px;            /* Menos espaço entre ponto e texto */
+        padding: 4px 8px;    /* Reduzido de 8px 12px */
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+        width: fit-content;
+
+        /* Posicionamento menor no canto */
+        position: fixed !important;
+        bottom: 15px !important; /* Mais baixo */
+        left: 15px !important;   /* Mais para o canto */
+        z-index: 9999;
+    }
+
+    /* Diminuir o ponto de status */
+    .mini-support-bar .status-dot {
+        width: 4px !important;
+        height: 4px !important;
+    }
+
+    /* Diminuir o texto */
+    #support-label {
+        font-size: 8px !important; /* Estava 9px ou maior */
+        letter-spacing: 0.2px;
+    }
+}

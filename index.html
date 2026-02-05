@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" style="background: #0a0b0d;">
 <head>
-    <html lang="pt-br" style="background: #0a0b0d;"></html>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão Barbearia Gouvêa | Nexo Digital</title>
@@ -13,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <link rel="icon" type="image/png" href="img/logo/favicon.png">
 
@@ -34,7 +31,6 @@
 <body>
 
 
-<!-- HAMBURGER -->
 <div class="hamburger-btn" id="hamburger">
     <span></span>
 </div>
@@ -85,9 +81,7 @@
         <span>Despesas</span>
     </button>
 </div>
-<!-- FINAL MENU MOBILE -->
  
-<!-- INICIO SIDEBAR -->
 <aside class="sidebar">
     <div class="top-group" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="logo">
@@ -110,6 +104,7 @@
         </nav>
     </div>
 
+
     <div class="bottom-group" style="display: flex; flex-direction: column; align-items: center;">
         <button onclick="logout()" class="nav-btn logout-btn" title="Sair do Sistema">
             <i class="fas fa-power-off"></i>
@@ -120,9 +115,7 @@
         </div>
     </div>
 </aside>
-<!-- FINAL SIDEBAR -->
 
-    <!-- CLIENTES MENSAL -->
     <div id="mensalistas" class="tab-content">
         <div class="glass-header">
             <h1>Clientes Premium</h1>
@@ -192,7 +185,6 @@
             </div>
         </div>
     </div>
-    <!-- FINAL CLIENTES MENSAL -->
 
     <main class="viewport">
         <section id="pos" class="tab-content active">
@@ -224,7 +216,6 @@
                                 <span class="bar active"></span>
                                 <span class="bar"></span>
                             </div>
-                            <span class="status-text">ONLINE</span>
                         </div>
                     </div>
                 </div>
@@ -417,7 +408,9 @@
                 </div>
             </div>
 
-        </div> </div> </section>
+        </div>
+    </div>
+</section>
         <section id="admin" class="tab-content">
             <div class="glass-header">
                 <h1>Painel Administrativo</h1>
@@ -586,6 +579,11 @@
         </div>
     </div>
 
+    <div class="mini-support-bar">
+        <div class="status-dot"></div> 
+        <span id="support-label"></span>
+    </div>
+
     <div id="tooltip-pizza" style="
         display: none; 
         position: fixed; 
@@ -600,6 +598,21 @@
         border: 1px solid rgba(255,255,255,0.1);
         backdrop-filter: blur(5px);
     "></div>
+
+    <div id="welcome-modal" class="modal-overlay">
+        <div class="modal-card welcome-card">
+            <div class="luxury-separator">
+                <h2 class="metallic-title">Bom trabalho!</h2>
+                <div class="luxury-line"></div>
+            </div>
+            <p>
+                Sistema <b>Nexo Digital</b> carregado para <br>
+                <b>Barbearia Gouvêa</b>. <br>
+                <small style="opacity: 0.5; font-size: 0.7rem; display: block; margin-top: 10px;">Taxas de imposto aplicadas conforme configuração.</small>
+            </p>
+            <button class="btn-confirm" onclick="closeWelcomeModal()">ACESSAR PAINEL</button>
+        </div>
+    </div>
     
     <script src="script.js"></script>
 </body>

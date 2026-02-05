@@ -9,151 +9,142 @@
     <link rel="stylesheet" href="login.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" type="image/png" href="img/logo/favicon.png">
-
+    
+    <link rel="icon" type="image/png" href="img/logo/logo.png">
     <meta property="og:site_name" content="Nexo Digital">
     <meta property="og:title" content="Sistema Barbearia Gouvêa">
     <meta property="og:description" content="Plataforma de gestão inteligente desenvolvida pela Nexo Digital.">
     <meta property="og:url" content="https://barbearia-gouvea.vercel.app/login">
     <meta property="og:type" content="website">
-
     <meta property="og:image" content="https://barbearia-gouvea.vercel.app/img/logo/logo.png">
     <meta property="og:image:secure_url" content="https://barbearia-gouvea.vercel.app/img/logo/logo.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-
-    <link rel="icon" type="image/png" href="img/logo/logo.png">
 </head>
 <body class="luxury-login">
     <div class="background-glow"></div>
 
     <div class="login-portal">
-    <div class="corner-border top-left"></div>
-    <div class="corner-border bottom-right"></div>
-
-    <header class="portal-header">
-        <div class="logo-area">
-            <i class="fas fa-crown gold-icon"></i>
-            <h1 class="metallic-title" id="portal-title">BARBEARIA <span>GOUVÊA</span></h1>
-        </div>
-        <div class="status-indicator">
-            <span class="pulse-dot"></span>
-            <small id="portal-status">LOGIN</small>
-        </div>
-    </header>
-
-    <form id="loginForm" class="portal-form">
-        <div class="field-group">
-            <label>USUÁRIO</label>
-            <div class="input-wrapper">
-                <i class="fas fa-fingerprint"></i>
-                <input type="text" id="username" placeholder="Usuário" required>
-            </div>
-        </div>
-        <div class="field-group">
-            <label>SENHA</label>
-            <div class="input-wrapper">
-                <i class="fas fa-shield-halved"></i>
-                <input type="password" id="password" placeholder="••••••••" required>
-                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('password', this)"></i>
-            </div>
-        </div>
-        <div class="portal-options">
-            <label class="cyber-check">
-                <input type="checkbox" id="remember">
-                <span class="custom-check"></span>
-                <small>MANTER CONEXÃO</small>
-            </label>
-            <button type="button" onclick="forgotPassword()" class="forgot-btn">REDEFINIR</button>
-        </div>
-        <button type="submit" class="enter-btn">
-            <span class="shine-effect"></span>
-            ENTRAR
-        </button>
-        <p class="toggle-text">Novo por aqui? <a href="#" onclick="toggleAuth()">Cadastrar</a></p>
-    </form>
-
-    <form id="registerForm" class="portal-form" style="display: none;">
-        <div class="field-group">
-            <label>DEFINIR NOVO USUÁRIO</label>
-            <div class="input-wrapper">
-                <i class="fas fa-user-plus"></i>
-                <input type="text" id="reg-username" placeholder="Crie seu usuário" required>
-            </div>
-        </div>
-       <div class="field-group">
-            <label>DEFINIR SENHA</label>
-            <div class="input-wrapper">
-        
-                <input type="password" id="reg-password" placeholder="Crie sua senha" required>
-                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('reg-password', this)"></i>
-            </div>
-        </div>
-        <button type="submit" class="enter-btn">
-            <span class="shine-effect"></span>
-            CADASTRAR USUÁRIO
-        </button>
-        <p class="toggle-text">Já possui acesso? <a href="#" onclick="toggleAuth()">Voltar ao Login</a></p>
-    </form>
-
-    <footer class="portal-footer">
-        <div class="footer-line"></div>
-        <p>NEXODIGITAL © 2026 // SECURE TERMINAL</p>
-    </footer>
-</div>
-
-<div id="forgot-modal" class="modal-overlay" style="display: none;">
-    <div class="login-portal modal-content">
         <div class="corner-border top-left"></div>
         <div class="corner-border bottom-right"></div>
-        
+
         <header class="portal-header">
-            <i class="fas fa-user-shield gold-icon"></i>
-            <h2 class="metallic-title">RECUPERAR <span>SISTEMA</span></h2>
-            <small style="color: #666; letter-spacing: 1px;">DIGITE SEU PIN DE 4 DÍGITOS</small>
+            <div class="logo-area">
+                <i class="fas fa-crown gold-icon"></i>
+                <h1 class="metallic-title" id="portal-title">BARBEARIA <span>GOUVÊA</span></h1>
+            </div>
+            <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <small id="portal-status">LOGIN</small>
+            </div>
         </header>
 
-        <form id="forgotForm">
+        <form id="loginForm" class="portal-form">
             <div class="field-group">
                 <label>USUÁRIO</label>
                 <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="reset-username" placeholder="Seu usuário" required>
+                    <i class="fas fa-fingerprint"></i>
+                    <input type="text" id="username" placeholder="Usuário" required>
                 </div>
             </div>
-            
             <div class="field-group">
-                <label>PIN DE RECUPERAÇÃO (4 DÍGITOS)</label>
+                <label>SENHA</label>
                 <div class="input-wrapper">
-                    <i class="fas fa-key"></i>
-                    <input type="text" id="reset-pin" maxlength="4" placeholder="0000" required>
+                    <i class="fas fa-shield-halved"></i>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('password', this)"></i>
                 </div>
             </div>
-
-            <div class="field-group">
-                <label>NOVA SENHA</label>
-                <div class="input-wrapper">
-                    <input type="password" id="reset-new-password" placeholder="Nova senha" required>
-                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('reset-new-password', this)"></i>
-                </div>
+            <div class="portal-options">
+                <label class="cyber-check">
+                    <input type="checkbox" id="remember">
+                    <span class="custom-check"></span>
+                    <small>MANTER CONEXÃO</small>
+                </label>
+                <button type="button" onclick="forgotPassword()" class="forgot-btn">REDEFINIR</button>
             </div>
-            
-            <button type="submit" class="enter-btn">VALIDAR E ALTERAR</button>
-            <button type="button" onclick="closeForgotModal()" class="forgot-btn" style="margin-top: 15px; width: 100%;">VOLTAR</button>
+            <button type="submit" class="enter-btn">
+                <span class="shine-effect"></span>
+                ENTRAR
+            </button>
+            <p class="toggle-text">Novo por aqui? <a href="#" onclick="toggleAuth()">Cadastrar</a></p>
         </form>
-    </div>
-</div>
 
-<div id="custom-alert" class="alert-overlay" style="display: none;">
-    <div class="alert-box">
-        <div class="corner-border top-left"></div>
-        <div class="corner-border bottom-right"></div>
-        <i id="alert-icon" class="fas fa-info-circle gold-icon"></i>
-        <p id="alert-message">Mensagem do Sistema</p>
-        <button onclick="closeAlert()" class="enter-btn alert-btn">OK</button>
+        <form id="registerForm" class="portal-form" style="display: none;">
+            <div class="field-group">
+                <label>DEFINIR NOVO USUÁRIO</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user-plus"></i>
+                    <input type="text" id="reg-username" placeholder="Crie seu usuário" required>
+                </div>
+            </div>
+            <div class="field-group">
+                <label>DEFINIR SENHA</label>
+                <div class="input-wrapper">
+                    <input type="password" id="reg-password" placeholder="Crie sua senha" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('reg-password', this)"></i>
+                </div>
+            </div>
+            <button type="submit" class="enter-btn">
+                <span class="shine-effect"></span>
+                PAGAR E ATIVAR ACESSO
+            </button>
+            <p class="toggle-text">Já possui acesso? <a href="#" onclick="toggleAuth()">Voltar ao Login</a></p>
+        </form>
+
+        <footer class="portal-footer">
+            <div class="footer-line"></div>
+            <p>NEXODIGITAL © 2026 // SECURE TERMINAL</p>
+        </footer>
     </div>
-</div>
+
+    <div id="forgot-modal" class="modal-overlay" style="display: none;">
+        <div class="login-portal modal-content">
+            <div class="corner-border top-left"></div>
+            <div class="corner-border bottom-right"></div>
+            <header class="portal-header">
+                <i class="fas fa-user-shield gold-icon"></i>
+                <h2 class="metallic-title">RECUPERAR <span>SISTEMA</span></h2>
+                <small style="color: #666; letter-spacing: 1px;">DIGITE SEU PIN DE 4 DÍGITOS</small>
+            </header>
+            <form id="forgotForm">
+                <div class="field-group">
+                    <label>USUÁRIO</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="reset-username" placeholder="Seu usuário" required>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>PIN DE RECUPERAÇÃO (4 DÍGITOS)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="reset-pin" maxlength="4" placeholder="0000" required>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>NOVA SENHA</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="reset-new-password" placeholder="Nova senha" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('reset-new-password', this)"></i>
+                    </div>
+                </div>
+                <button type="submit" class="enter-btn">VALIDAR E ALTERAR</button>
+                <button type="button" onclick="closeForgotModal()" class="forgot-btn" style="margin-top: 15px; width: 100%;">VOLTAR</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="custom-alert" class="alert-overlay" style="display: none;">
+        <div class="alert-box">
+            <div class="corner-border top-left"></div>
+            <div class="corner-border bottom-right"></div>
+            <i id="alert-icon" class="fas fa-info-circle gold-icon"></i>
+            <p id="alert-message">Mensagem do Sistema</p>
+            <button onclick="closeAlert()" class="enter-btn alert-btn">OK</button>
+        </div>
+    </div>
 
     <script src="login.js"></script>
 </body>

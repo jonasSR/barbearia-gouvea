@@ -2090,3 +2090,48 @@ window.addEventListener('wheel', function(e) {
         e.preventDefault();
     }
 }, { passive: false });
+
+
+
+// ==========================================
+// CONFIGURAÇÃO DO SUPORTE (Mude aqui)
+// ==========================================
+const statusAtual = 'ativo'; // Opções: 'ativo' ou 'expirado'
+
+function atualizarStatusSuporte() {
+    const dot = document.querySelector('.status-dot');
+    const label = document.getElementById('support-label');
+    
+    if (!dot || !label) return;
+
+    if (statusAtual === 'expirado') {
+        dot.className = 'status-dot expired';
+        label.innerHTML = 'SUPORTE NEXO DIGITAL: <b style="color: #ff4444;">EXPIRADO (v2.1)</b>';
+    } else {
+        dot.className = 'status-dot active';
+        label.innerHTML = 'SUPORTE NEXO DIGITAL: <b>ATIVO (v2.1)</b>';
+    }
+}
+
+// Executa a função assim que a página carregar
+window.addEventListener('load', atualizarStatusSuporte);
+
+
+// Função para fechar o modal
+function closeWelcomeModal() {
+    const modal = document.getElementById('welcome-modal');
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 400);
+}
+
+// Sempre que carregar o script/página, o modal aparece
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('welcome-modal');
+    if(modal) {
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+    }
+});
