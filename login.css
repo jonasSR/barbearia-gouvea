@@ -172,7 +172,7 @@ input:filter(autofill) {
 
 .portal-footer { margin-top: 40px; text-align: center; }
 .footer-line { width: 30px; height: 1px; background: #222; margin: 0 auto 15px; }
-.portal-footer p { font-size: 0.55rem; color: #444; letter-spacing: 2px; }
+.portal-footer p { font-size: 0.55rem; color: 999191; letter-spacing: 2px; }
 
 
 .toggle-text {
@@ -319,12 +319,23 @@ input:filter(autofill) {
 
 .toggle-password {
     position: absolute;
-    right: 15px;
+    right: 10px; /* Ajuste a distância da borda direita */
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
-    color: #666;
-    transition: color 0.3s, transform 0.2s;
-    font-size: 0.9rem;
-    z-index: 10;
+    z-index: 10; /* Garante que fique sobre o input */
+    width: 20px;  /* Limita a largura da área de clique */
+    height: 20px; /* Limita a altura da área de clique */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important; /* Remove qualquer padding que esteja crescendo o alvo */
+}
+
+/* Isso garante que o input tenha espaço para o texto não ficar embaixo do olho */
+input[type="password"], 
+input[type="text"] {
+    padding-right: 35px !important; 
 }
 
 .toggle-password:hover {
