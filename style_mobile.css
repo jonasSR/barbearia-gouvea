@@ -1,3 +1,48 @@
+/* Configurações para DESKTOP (Telas maiores que 1024px) */
+@media screen and (min-width: 1025px) {
+    html {
+        /* Força o zoom de 80% */
+        zoom: 0.8;
+        -moz-transform: scale(0.8);
+        -moz-transform-origin: 0 0;
+        
+        /* Garante que o fundo ocupe a tela toda sem barras pretas */
+        background: #0a0b0d; 
+        height: 125%; 
+        width: 125%;
+        overflow: hidden;
+    }
+
+    body {
+        margin: 0; 
+        font-family: 'Inter', sans-serif;
+        background-color: #0a0b0d;
+        color: var(--text-primary);
+        display: flex; 
+        height: 100%; 
+        width: 100%;
+        overflow: hidden;
+        position: fixed; /* Impede qualquer movimento de "puxar" a tela */
+    }
+}
+
+/* Configurações para MOBILE (Telas menores) */
+@media screen and (max-width: 1024px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        zoom: 1.0; /* Zoom normal no celular */
+        -moz-transform: scale(1.0);
+        overflow-x: hidden; /* Evita scroll lateral no mobile */
+        position: relative; /* Libera a tela para rolar se o conteúdo for longo */
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column; /* Ajusta o layout para vertical no celular */
+    }
+}
+
 /* ========================================================================== */
 /* VISIBILIDADE PADRÃO (DESKTOP) */
 /* ========================================================================== */
@@ -281,6 +326,8 @@
         width: 100%;
         max-width: 100%;
     }
+
+    
 
     /* ===================================================== */
     /* INVENTORY */
@@ -824,33 +871,6 @@ body.light-theme .mobile-menu h3 {
 }
 
 
-
-@media (max-width: 1199px) {
-    /* 1. LIBERAR SCROLL NO CORPO DA PÁGINA */
-    body, html {
-        overflow-y: auto !important;
-        overflow-x: hidden !important; /* Evita que a tela dance para os lados */
-        height: auto !important;
-        min-height: 100vh;
-    }
-
-    /* 2. AJUSTE NA VIEWPORT PARA NÃO TRAVAR CONTEÚDO */
-    .viewport {
-        overflow-y: visible !important;
-        display: block !important;
-        padding-bottom: 120px !important; /* Espaço extra para não cobrir o conteúdo com a Tab Bar */
-    }
-
-    /* 3. CASO VOCÊ TENHA UM CONTAINER DE ADMINISTRAÇÃO */
-    .admin-container, 
-    .mobile-content {
-        overflow-y: visible !important;
-        height: auto !important;
-    }
-}
-
-
-
 /* --- VERSÃO MOBILE (Ajustes para Celular) --- */
 @media (max-width: 768px) {
 
@@ -1076,3 +1096,23 @@ body.light-theme .mobile-menu h3 {
     }
 }
 
+
+
+
+/* Forçando a correção por cima do estilo injetado */
+.report-card {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 15px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 10px !important; /* Cria o espaço que falta para não encavalar */
+}
+
+/* Garante que o texto não suba um no outro */
+.report-card span, 
+.report-card div {
+    position: relative !important;
+    white-space: nowrap !important;
+}
