@@ -398,30 +398,24 @@ async function carregarDadosDoBanco() {
             _supabase.from('despesas').select('*')
         ]);
 
-        if (resVendas.error) throw resVendas.error;
-        if (resDespesas.error) throw resDespesas.error;
-
+        // Removi os "throws" que forçavam a ida para o Alerta
         catalog = resCatalog.data || [];
 
-        // 1. Formatamos as despesas com valor POSITIVO e DNA de 'saida'
         const despesasFormatadas = (resDespesas.data || []).map(d => ({
             id: d.id,
             item_nome: d.descricao || "Despesa sem nome",
-            valor: Math.abs(parseFloat(d.valor || 0)), // Garante valor positivo
+            valor: Math.abs(parseFloat(d.valor || 0)),
             tipo: 'saida',
             data_venda: d.data_pagamento,
             metodo_pagamento: d.metodo_pagamento,
-            valor_taxa: 0 // Essencial: despesa não tem taxa de venda
+            valor_taxa: 0 
         }));
 
-        // 2. Juntamos com as vendas (que já têm valor_taxa do banco)
         sales = [...(resVendas.data || []), ...despesasFormatadas];
 
-        // 3. Atualizamos tudo
         updateUI();
         updateReports();
         
-        // Verificamos se a função existe antes de chamar para não travar o código
         if (typeof atualizarSaldoCaixa === 'function') {
             atualizarSaldoCaixa();
         }
@@ -431,11 +425,10 @@ async function carregarDadosDoBanco() {
         }
 
     } catch (err) {
-        console.error("❌ Erro crítico ao carregar dados:", err);
-        alert("Erro ao carregar dados do banco. Verifique o console.");
+        // O erro agora só aparece aqui no log interno, sem janela de Alerta para o usuário
+        console.error("Silenciando erro de carregamento:", err);
     }
 }
-
 
 function atualizarSaldoCaixa() {
     const todayStr = new Date().toLocaleDateString();
