@@ -1556,21 +1556,23 @@ function updateAdminStats() {
     // 1. Conta os itens nas listas
     const nServicos = document.querySelectorAll('#list-servicos .inventory-item').length;
     const nProdutos = document.querySelectorAll('#list-produtos .inventory-item').length;
-    const listaD = document.getElementById('list-despesas');
-    const nDespesas = listaD ? listaD.children.length : 0;
+    
+    // MUDANÇA MATADORA: Em vez de contar filhos genéricos, 
+    // vamos contar apenas elementos que tenham uma classe específica de despesa.
+    // Se suas despesas usam a classe "inventory-item", mantenha assim:
+    const nDespesas = document.querySelectorAll('#list-despesas .inventory-item').length;
 
     // 2. Atualiza os números nos visores (count-...)
     const vS = document.getElementById('count-servicos');
     const vP = document.getElementById('count-produtos');
     const vD = document.getElementById('count-despesas');
 
+    // Mantendo tax rates e nomes originais conforme suas instruções
     if (vS) vS.innerText = nServicos;
     if (vP) vP.innerText = nProdutos;
     if (vD) vD.innerText = nDespesas;
 }
 
-
-// Criar um observador para atualizar em tempo real sem precisar de setInterval
 const adminObserver = new MutationObserver(updateAdminStats);
 
 
