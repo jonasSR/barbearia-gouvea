@@ -49,8 +49,8 @@
 
 html {
     /* Força o zoom de 80% */
-    zoom: 0.8;
-    -moz-transform: scale(0.8);
+    zoom: 0.7;
+    -moz-transform: scale(0.7);
     -moz-transform-origin: 0 0;
     
     /* Garante que o fundo ocupe a tela toda sem barras pretas */
