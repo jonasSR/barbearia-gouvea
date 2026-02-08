@@ -981,71 +981,82 @@ async function exportarRelatorioPDF(modo = 'geral') {
     });
 
     // --- BLOCO: LISTA DE CLIENTES PREMIUM ---
-    let somaBrutoPremium = 0;
-    let somaLiquidoPremium = 0;
+let somaBrutoPremium = 0;
+let somaLiquidoPremium = 0;
 
-    if (mensalistas && mensalistas.length > 0) {
-        doc.setTextColor(40, 40, 40);
-        doc.setFontSize(11);
-        doc.setFont("helvetica", "bold");
-        doc.text("LISTA DE CLIENTES PREMIUM", 15, yM + 10);
+if (mensalistas && mensalistas.length > 0) {
+    doc.setTextColor(40, 40, 40);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("DETALHAMENTO DE CLIENTES PREMIUM", 15, yM + 10);
 
-        let yP = yM + 20;
-        doc.setFillColor(45, 45, 63);
-        doc.rect(10, yP - 5, 190, 8, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(5.5);
+    let yP = yM + 20;
+    doc.setFillColor(45, 45, 63);
+    doc.rect(10, yP - 5, 190, 8, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(5); 
 
-        doc.text("CRIADO EM", 12, yP);
-        doc.text("NOME", 28, yP);
-        doc.text("TELEFONE", 50, yP);
-        doc.text("INÍCIO", 73, yP);
-        doc.text("VENCIMENTO", 88, yP);
-        doc.text("MÉTODO", 110, yP);
-        doc.text("STATUS", 132, yP);
-        doc.text("BRUTO", 152, yP);
-        doc.text("LÍQUIDO", 170, yP);
-        doc.text("DESC.", 188, yP);
+    doc.text("NOME", 12, yP);
+    doc.text("PLANO CONTRATADO", 38, yP);
+    doc.text("SERVIÇO EXTRA", 70, yP); // Troquei "Aditivo" por "Serviço Extra"
+    doc.text("INÍCIO", 92, yP);
+    doc.text("VENCIMENTO", 110, yP);
+    doc.text("MÉTODO", 130, yP);
+    doc.text("STATUS", 150, yP);
+    doc.text("BRUTO", 165, yP);
+    doc.text("DESC.", 178, yP);
+    doc.text("LÍQUIDO", 190, yP);
 
-        yP += 8;
-        doc.setTextColor(40, 40, 40);
+    yP += 8;
+    doc.setTextColor(40, 40, 40);
+    doc.setFont("helvetica", "normal");
+
+    mensalistas.forEach(m => {
+        if (yP > 275) { doc.addPage(); yP = 25; }
+        
+        const inicio = m.data_inicio ? new Date(m.data_inicio).toLocaleDateString('pt-BR') : "---";
+        const venc = m.data_vencimento ? new Date(m.data_vencimento).toLocaleDateString('pt-BR') : "---";
+        const statusCor = m.status === 'ATIVO' ? [0, 120, 0] : [200, 0, 0];
+        
+        // Identifica se tem sobrancelha no texto do plano
+        const nomePlanoUpper = (m.plano_nome || "").toUpperCase();
+        const textoExtra = nomePlanoUpper.includes("SOBRANCELHA") ? "SOBRANCELHA" : "NENHUM";
+
+        somaBrutoPremium += parseFloat(m.plano_valor || 0);
+        somaLiquidoPremium += parseFloat(m.valor_liquido || 0);
+
+        doc.setFontSize(5);
+        doc.text((m.nome || "---").toUpperCase().substring(0, 15), 12, yP);
+        
+        // Limpa o nome do plano para exibir apenas o principal
+        const apenasPlano = nomePlanoUpper.replace("+ SOBRANCELHA", "").replace("+SOBRANCELHA", "").trim();
+        doc.text(apenasPlano.substring(0, 20), 38, yP);
+        
+        // Se tiver sobrancelha, destaca em negrito ou mantém normal
+        if(textoExtra === "SOBRANCELHA") doc.setFont("helvetica", "bold");
+        doc.text(textoExtra, 70, yP);
         doc.setFont("helvetica", "normal");
 
-        mensalistas.forEach(m => {
-            if (yP > 275) { doc.addPage(); yP = 25; }
-            
-            const criado = m.criado_em ? new Date(m.criado_em).toLocaleDateString('pt-BR') : "---";
-            const inicio = m.data_inicio ? new Date(m.data_inicio).toLocaleDateString('pt-BR') : "---";
-            const venc = m.data_vencimento ? new Date(m.data_vencimento).toLocaleDateString('pt-BR') : "---";
-            const statusCor = m.status === 'ATIVO' ? [0, 120, 0] : [200, 0, 0];
-
-            somaBrutoPremium += parseFloat(m.plano_valor || 0);
-            somaLiquidoPremium += parseFloat(m.valor_liquido || 0);
-
-            doc.setFontSize(5.5);
-            doc.text(criado, 12, yP);
-            doc.text((m.nome || "---").toUpperCase().substring(0, 10), 28, yP);
-            doc.text(m.telefone || "---", 50, yP);
-            doc.text(inicio, 73, yP);
-            doc.text(venc, 88, yP);
-            doc.text((m.metodo_pagamento || "---").substring(0, 10), 110, yP);
-            
-            doc.setTextColor(statusCor[0], statusCor[1], statusCor[2]);
-            doc.setFont("helvetica", "bold");
-            doc.text(m.status || "---", 132, yP);
-            
-            doc.setTextColor(40, 40, 40);
-            doc.setFont("helvetica", "normal");
-            doc.text(parseFloat(m.plano_valor || 0).toFixed(2), 152, yP);
-            doc.text(parseFloat(m.valor_liquido || 0).toFixed(2), 170, yP);
-            doc.text(parseFloat(m.valor_desconto || 0).toFixed(2), 188, yP);
-            
-            doc.setDrawColor(240);
-            doc.line(10, yP + 2, 200, yP + 2);
-            yP += 7;
-        });
-        yM = yP; 
-    }
+        doc.text(inicio, 92, yP);
+        doc.text(venc, 110, yP);
+        doc.text((m.metodo_pagamento || "---"), 130, yP);
+        
+        doc.setTextColor(statusCor[0], statusCor[1], statusCor[2]);
+        doc.setFont("helvetica", "bold");
+        doc.text(m.status || "---", 150, yP);
+        
+        doc.setTextColor(40, 40, 40);
+        doc.setFont("helvetica", "normal");
+        doc.text(parseFloat(m.plano_valor || 0).toFixed(2), 165, yP);
+        doc.text(parseFloat(m.valor_desconto || 0).toFixed(2), 178, yP);
+        doc.text(parseFloat(m.valor_liquido || 0).toFixed(2), 190, yP);
+        
+        doc.setDrawColor(240);
+        doc.line(10, yP + 2, 200, yP + 2);
+        yP += 7;
+    });
+    yM = yP; 
+}
 
     // --- BLOCO: FECHAMENTOS DIÁRIOS ---
     doc.setTextColor(40, 40, 40);
@@ -1772,7 +1783,7 @@ function abrirProdutoSnack() {
 
 let editandoId = null;
 
-// 1. RENDERIZAR LISTA (BLOCOS COLORIDOS)
+// 1. RENDERIZAR LISTA (BLOCOS COLORIDOS) - AGORA COM PAGAMENTO
 async function renderizarListaMensalistas() {
     const grid = document.getElementById('grid-mensalistas');
     if (!grid) return;
@@ -1817,12 +1828,23 @@ async function renderizarListaMensalistas() {
                 </div>
                 <div class="col-info">
                     <span>PLANO</span>
+                    <div style="font-size: 0.75rem; font-weight: bold; color: #fff; margin-bottom: 2px;">${(c.plano_nome || 'PLANO').toUpperCase()}</div>
                     R$ ${c.plano_valor.toFixed(2)}
                 </div>
+
+                <div class="col-info">
+                    <span>PAGAMENTO</span>
+                    <div style="font-size: 0.7rem; font-weight: bold; color: #bbb; text-transform: uppercase;">
+                        ${c.metodo_pagamento || 'N/A'}
+                    </div>
+                </div>
                 
-                <div class="col-actions">
-                    <button onclick='prepararEdicao(${JSON.stringify(c)})' class="btn-edit">
+                <div class="col-actions" style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button onclick='prepararEdicao(${JSON.stringify(c)})' class="btn-edit" title="Editar">
                         <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="excluirMensalista('${c.id}', '${c.nome}')" class="btn-delete" title="Excluir" style="background: rgba(231, 76, 60, 0.1); border: none; color: #e74c3c; padding: 6px; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </div>
             </div>`;
@@ -1830,8 +1852,29 @@ async function renderizarListaMensalistas() {
     } catch (err) { console.error(err); }
 }
 
+// NOVA FUNÇÃO: EXCLUIR DO BANCO (SEM ALERT / SEM CONFIRM)
+async function excluirMensalista(id, nome) {
+    // Removi o confirm() daqui para não aparecer mais nenhuma caixa do navegador
+    try {
+        const { error } = await _supabase
+            .from('clientes_premium')
+            .delete()
+            .eq('id', id);
 
-// 2. PREPARAR EDIÇÃO (COM INPUT DE STATUS E BOTÕES COMPACTOS)
+        if (error) throw error;
+
+        // Agora usa exclusivamente o seu showToast
+        showToast(`Cliente ${nome.toUpperCase()} removido!`);
+        
+        renderizarListaMensalistas();
+        
+    } catch (err) {
+        console.error(err);
+        showToast("Erro ao excluir: " + err.message);
+    }
+}
+
+// 2. PREPARAR EDIÇÃO
 function prepararEdicao(c) {
     editandoId = c.id;
     document.getElementById('m-nome').value = c.nome;
@@ -1839,25 +1882,21 @@ function prepararEdicao(c) {
     document.getElementById('m-data-inicio').value = c.data_inicio;
     document.getElementById('m-valor').value = c.plano_valor.toFixed(2);
     
-    // Mostra o campo de Status
     const groupStatus = document.getElementById('group-status');
     if(groupStatus) {
         groupStatus.style.display = 'block';
         document.getElementById('m-status').value = c.status || 'ATIVO';
     }
     
-    // Botão Salvar Verde e Pequeno
     const btnSalvar = document.querySelector('.btn-premium');
     btnSalvar.innerHTML = '<i class="fas fa-save"></i> SALVAR';
     btnSalvar.style.cssText = "background:#2ecc71; color:#fff; padding:8px 15px; font-size:0.8rem; border:none; border-radius:4px; cursor:pointer; flex:1;";
 
-    // Botão Cancelar Pequeno
     const btnCancel = document.getElementById('btn-cancelar');
     if(btnCancel) {
         btnCancel.style.cssText = "display:inline-block; background:#444; color:#fff; padding:8px 15px; font-size:0.8rem; border:none; border-radius:4px; cursor:pointer; flex:1;";
     }
     
-    // Coloca um ao lado do outro
     const containerBotoes = btnSalvar.parentElement;
     containerBotoes.style.display = "flex";
     containerBotoes.style.gap = "8px";
@@ -1865,7 +1904,6 @@ function prepararEdicao(c) {
     document.querySelector('.formulario-direto').style.border = '1px solid #2ecc71';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 
 // 3. CANCELAR / RESET
 function cancelarEdicao() {
@@ -1877,7 +1915,7 @@ function cancelarEdicao() {
 
     const btnSalvar = document.querySelector('.btn-premium');
     btnSalvar.innerHTML = '<i class="fas fa-check-circle"></i> CADASTRAR CLIENTE';
-    btnSalvar.style.cssText = ""; // Reseta para o original do seu CSS
+    btnSalvar.style.cssText = ""; 
 
     const btnCancel = document.getElementById('btn-cancelar');
     if(btnCancel) btnCancel.style.display = 'none';
@@ -1885,21 +1923,33 @@ function cancelarEdicao() {
     document.querySelector('.formulario-direto').style.border = 'none';
 }
 
+// VARIÁVEIS DE CONTROLE GLOBAL
+window.valorAtualModal = 0;
+window.servicoExtraAdicionado = false;
 
-// 1. FUNÇÃO DO BOTÃO CADASTRAR (Abre a Modal e Preenche Informações)
+// FUNÇÃO AUXILIAR PARA PEGAR O NOME DO PLANO SEM ERRO
+function obterNomePlanoSelecionado() {
+    const sel = document.getElementById('m-plano-select') || document.querySelector('.formulario-direto select');
+    if (sel && sel.selectedIndex !== -1) {
+        return sel.options[sel.selectedIndex].text.split(' - ')[0].trim();
+    }
+    return "PLANO";
+}
+
+// 1. FUNÇÃO DO BOTÃO CADASTRAR
 async function salvarMensalista() {
     const nome = document.getElementById('m-nome').value;
     const dataI = document.getElementById('m-data-inicio').value;
-    const valor = parseFloat(document.getElementById('m-valor').value);
+    const valorOriginal = parseFloat(document.getElementById('m-valor').value);
     const telefone = document.getElementById('m-telefone').value;
     const campoStatus = document.getElementById('m-status');
     const statusAtual = campoStatus ? campoStatus.value : 'ATIVO';
 
-    if (!nome || !dataI || isNaN(valor)) return alert("Preencha os campos obrigatórios!");
+    if (!nome || !dataI || isNaN(valorOriginal)) return alert("Preencha os campos obrigatórios!");
 
-    // ==========================================================
-    // LÓGICA DE SALVAMENTO DIRETO (SE FOR INATIVO NA EDIÇÃO)
-    // ==========================================================
+    window.valorAtualModal = valorOriginal;
+    window.servicoExtraAdicionado = false;
+
     if (editandoId && statusAtual === 'INATIVO') {
         const dVencObjDirect = new Date(dataI + 'T00:00:00');
         dVencObjDirect.setMonth(dVencObjDirect.getMonth() + 1);
@@ -1909,59 +1959,52 @@ async function salvarMensalista() {
             telefone,
             data_inicio: dataI,
             data_vencimento: dVencObjDirect.toISOString().split('T')[0],
-            plano_valor: valor,
+            plano_valor: valorOriginal,
+            plano_nome: obterNomePlanoSelecionado(),
             status: 'INATIVO'
         };
 
         try {
             const { error } = await _supabase.from('clientes_premium').update(dadosInativo).eq('id', editandoId);
             if (error) throw error;
-            
             cancelarEdicao();
             renderizarListaMensalistas();
-            // Feedback discreto em vez de alert
-            if (typeof showToast === 'function') showToast(`Cliente ${nome} inativado.`);
             return;
-        } catch (err) {
-            return alert("Erro ao inativar: " + err.message);
-        }
+        } catch (err) { return alert("Erro: " + err.message); }
     }
 
     const dVencObj = new Date(dataI + 'T00:00:00');
     dVencObj.setMonth(dVencObj.getMonth() + 1);
-    const dataVencFormatada = dVencObj.toLocaleDateString('pt-BR');
 
     const modal = document.getElementById('confirmSaleModal');
-    if (!modal) return alert("Erro: Modal 'confirmSaleModal' não encontrada!");
+    if (!modal) return alert("Modal não encontrada!");
 
     const salePreview = document.getElementById('salePreview');
     if (salePreview) {
-        salePreview.innerHTML = `
-            <div style="padding: 5px; color: #fff; font-family: sans-serif; line-height: 1.1;">
-                <h3 style="color: #d68b00; margin: 0 0 6px 0; font-size: 11px; border-bottom: 1px solid rgba(188, 156, 95, 0.2); padding-bottom: 2px; text-transform: uppercase; letter-spacing: 0.3px;">Resumo Mensalista</h3>
-                
-                <div style="margin-bottom: 5px;">
-                    <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase; margin-bottom: -2px;">Cliente</span>
-                    <div style="font-size: 11px; font-weight: bold; color: #eee;">${nome.toUpperCase()}</div>
-                </div>
+        window.atualizarResumoModal = () => {
+            const nomePlanoDinamico = obterNomePlanoSelecionado();
+            const valorTotalExibido = window.valorAtualModal;
+            const planoTextoExibido = window.servicoExtraAdicionado ? `${nomePlanoDinamico} + SOBRANCELHA` : nomePlanoDinamico;
 
-                <div style="margin-bottom: 5px;">
-                    <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase; margin-bottom: -2px;">Valor</span>
-                    <div style="font-size: 13px; font-weight: bold; color: #2ecc71;">R$ ${valor.toFixed(2)}</div>
-                </div>
-
-                <div style="display: flex; gap: 12px;">
-                    <div>
-                        <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase; margin-bottom: -2px;">Início</span>
-                        <div style="font-size: 10px;">${dataI.split('-').reverse().join('/')}</div>
+            salePreview.innerHTML = `
+                <div style="padding: 5px; color: #fff; font-family: sans-serif; line-height: 1.1;">
+                    <h3 style="color: #d68b00; margin: 0 0 6px 0; font-size: 11px; border-bottom: 1px solid rgba(188, 156, 95, 0.2); padding-bottom: 2px; text-transform: uppercase;">Resumo Mensalista</h3>
+                    <div style="margin-bottom: 5px;">
+                        <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase;">Plano</span>
+                        <div style="font-size: 10px; color: #bbb;">${planoTextoExibido}</div>
                     </div>
-                    <div>
-                        <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase; margin-bottom: -2px;">Vencimento</span>
-                        <div style="font-size: 10px; color: #f39c12; font-weight: bold;">${dataVencFormatada}</div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="color: #888; font-size: 8px; font-weight: bold; display: block; text-transform: uppercase;">Valor</span>
+                        <div style="font-size: 13px; font-weight: bold; color: #2ecc71;">R$ ${valorTotalExibido.toFixed(2)}</div>
                     </div>
-                </div>
-            </div>
-        `;
+                    <button type="button" onclick="toggleSobrancelha(${valorOriginal})" 
+                        style="width: 100%; padding: 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 9px; transition: 0.3s;
+                        ${window.servicoExtraAdicionado ? 'background: #2ecc71; color: white; border: none;' : 'background: rgba(212,175,55,0.1); color: #d4af37; border: 1px dashed #d4af37;'}">
+                        ${window.servicoExtraAdicionado ? '✓ SOBRANCELHA ADICIONADA' : '+ ADICIONAR SOBRANCELHA (R$ 10)'}
+                    </button>
+                </div>`;
+        };
+        window.atualizarResumoModal();
     }
 
     modal.style.setProperty('display', 'flex', 'important');
@@ -1977,19 +2020,30 @@ async function salvarMensalista() {
             const metodoSelecionado = document.getElementById('paymentMethod')?.value;
             if (!metodoSelecionado) return alert("Selecione a forma de pagamento!");
 
-            const taxa = CONFIG_TAXAS[metodoSelecionado] !== undefined ? CONFIG_TAXAS[metodoSelecionado] : 0;
-            const valorDesconto = (valor * taxa).toFixed(2);
-            const valorLiquido = (valor - valorDesconto).toFixed(2);
+            const CONFIG_TAXAS = {
+                'Pix': 0.005,
+                'Débito': 0.02,
+                'Crédito': 0.05,
+                'Dinheiro': 0
+            };
+
+            const taxa = CONFIG_TAXAS[metodoSelecionado] || 0;
+            const valorFinal = window.valorAtualModal;
+            const valorDesconto = (valorFinal * taxa).toFixed(2);
+            const valorLiquido = (valorFinal - valorDesconto).toFixed(2);
+
+            const nomePlanoFinal = obterNomePlanoSelecionado();
 
             const dados = {
-                nome, 
+                nome: nome,
                 telefone,
                 data_inicio: dataI, 
                 data_vencimento: dVencObj.toISOString().split('T')[0],
-                plano_valor: valor, 
+                plano_valor: valorFinal, 
+                plano_nome: window.servicoExtraAdicionado ? `${nomePlanoFinal} + SOBRANCELHA` : nomePlanoFinal,
                 metodo_pagamento: metodoSelecionado,
-                valor_desconto: valorDesconto,
-                valor_liquido: valorLiquido, 
+                valor_desconto: parseFloat(valorDesconto),
+                valor_liquido: parseFloat(valorLiquido), 
                 status: statusAtual
             };
 
@@ -1999,75 +2053,23 @@ async function salvarMensalista() {
                     await _supabase.from('clientes_premium').insert([dados]);
 
                 if (error) throw error;
-
-                // SUCESSO: LIMPA INTERFACE E EXIBE TOAST
                 modal.style.setProperty('display', 'none', 'important');
                 cancelarEdicao();
                 renderizarListaMensalistas();
-                
-                // Mensagem personalizada sem alert
-                if (typeof showToast === 'function') {
-                    showToast(`Lançado: ${nome} (${metodoSelecionado})`);
-                }
-
-            } catch (err) { 
-                alert("Erro ao salvar: " + err.message); 
-            }
+                if (typeof showToast === 'function') showToast(`Lançado: ${nome}`);
+            } catch (err) { alert("Erro ao salvar: " + err.message); }
         };
     }
 }
 
-
-// 2. FUNÇÃO DE SALVAMENTO REAL (Deve ser chamada no "Confirmar" da Modal)
-async function confirmarCadastroComPagamento() {
-    // Pega o método que sua função selectMethod() salvou no input
-    const metodo = document.getElementById('paymentMethod').value;
-    
-    if (!metodo) return alert("Selecione uma forma de pagamento na modal!");
-
-    const nome = document.getElementById('m-nome').value;
-    const dataI = document.getElementById('m-data-inicio').value;
-    const valor = parseFloat(document.getElementById('m-valor').value);
-    const campoStatus = document.getElementById('m-status');
-    const statusAtual = campoStatus ? campoStatus.value : 'ATIVO';
-
-    // LÓGICA DE TAXAS: 4.99% apenas se for CARTÃO
-    const taxa = (metodo === 'CARTAO' || metodo === 'CREDITO' || metodo === 'DEBITO') ? 0.0499 : 0;
-    const vLiq = valor * (1 - taxa);
-
-    // Cálculo do Vencimento (+1 mês)
-    const dVencObj = new Date(dataI + 'T00:00:00');
-    dVencObj.setMonth(dVencObj.getMonth() + 1);
-
-    const dados = {
-        nome, 
-        telefone: document.getElementById('m-telefone').value,
-        data_inicio: dataI, 
-        data_vencimento: dVencObj.toISOString().split('T')[0],
-        plano_valor: valor, 
-        valor_liquido: vLiq, 
-        status: statusAtual
-    };
-
-    try {
-        const { error } = editandoId ? 
-            await _supabase.from('clientes_premium').update(dados).eq('id', editandoId) : 
-            await _supabase.from('clientes_premium').insert([dados]);
-
-        if (error) throw error;
-
-        // Fecha a modal após sucesso
-        document.querySelector('.modal-card').style.display = 'none';
-        
-        cancelarEdicao();
-        renderizarListaMensalistas();
-        alert("Mensalista cadastrado com sucesso!");
-    } catch (err) { 
-        alert("Erro ao salvar no banco: " + err.message); 
-    }
+function toggleSobrancelha(valorBase) {
+    window.servicoExtraAdicionado = !window.servicoExtraAdicionado;
+    window.valorAtualModal = window.servicoExtraAdicionado ? valorBase + 10 : valorBase;
+    if (window.atualizarResumoModal) window.atualizarResumoModal();
 }
 
 document.addEventListener('DOMContentLoaded', renderizarListaMensalistas);
+
 
 // MÁSCARA DE TELEFONE EM TEMPO REAL
 document.getElementById('m-telefone').addEventListener('input', function (e) {
@@ -2137,3 +2139,16 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.opacity = '1';
     }
 });
+
+
+function filtrarMensalistas() {
+    const termo = document.getElementById('input-busca-premium').value.toLowerCase();
+    const grid = document.getElementById('grid-mensalistas');
+    const cards = grid.children; // Isso pega cada "quadradinho" de cliente
+
+    for (let i = 0; i < cards.length; i++) {
+        const textoCard = cards[i].innerText.toLowerCase();
+        // Se o nome ou plano bater com a busca, o card continua aparecendo
+        cards[i].style.display = textoCard.includes(termo) ? "" : "none";
+    }
+}

@@ -1061,6 +1061,51 @@ nav {
 }
 
 /* ==========================================================================
+   CAIXA DE PESQUISA - CLIENTES PREMIUM (Ajustada para clique)
+   ========================================================================== */
+.search-box-premium {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    max-width: 400px;
+    margin-bottom: 20px; /* Margem positiva para não sobrepor */
+    margin-left: 30px;
+    position: relative;  /* Garante que fique na camada correta */
+    z-index: 10;         /* Coloca a caixa na frente de qualquer outro elemento */
+}
+
+.search-box-premium:focus-within {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.search-box-premium i {
+    color: var(--accent);
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.search-box-premium input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+}
+
+.search-box-premium input::placeholder {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+/* ==========================================================================
    14. TÍTULOS DE ELITE E EFEITOS DE BRILHO
    ========================================================================== */
 /* Container do Título - MANTIDO ORIGINAL */
@@ -1637,7 +1682,7 @@ input[type=number] {
     /* --- POSICIONAMENTO TOTALMENTE FIXO --- */
     position: absolute; 
     left: 160px;        /* Distância fixa da esquerda */
-    top: 453px;          /* VALOR EM PX: Ajuste este número para subir ou descer o botão */
+ 
     
     /* Impedir que o zoom mova o botão */
     transform: none !important; /* Removemos o translate para ele não "dançar" no zoom */
@@ -1785,6 +1830,8 @@ input[type=number] {
     border-radius: 4px;
 }
 
+
+
 /* =========================
    LAYOUT BASE (ALTURA FIXA)
 ========================= */
@@ -1801,6 +1848,24 @@ input[type=number] {
 .col-acoes {
     flex: 1;
     margin-top: 0; /* Removido os 5px para subir totalmente */
+}
+
+.btn-extra-modal {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+    border: 1px dashed #d4af37;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+.btn-extra-modal:hover {
+    background: #d4af37;
+    color: #000;
 }
 
 /* =========================
@@ -1887,6 +1952,7 @@ input[type=number] {
     grid-template-columns: 1fr 1fr; /* Divide em 2 colunas */
     gap: 12px;
     max-width: 500px; /* Evita que ele estique demais horizontalmente */
+    margin-top: 44px;
 }
 
 /* Campos que ocupam a linha toda */

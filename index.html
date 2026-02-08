@@ -122,6 +122,13 @@
             <p>Gestão de mensalistas e planos ativos</p>
         </div>
 
+        <div class="pos-search-container">
+            <div class="search-box-premium">
+                <i class="fas fa-search"></i>
+                <input type="text" id="input-busca-premium" placeholder="Pesquisar cliente premium..." onkeyup="filtrarMensalistas()">
+            </div>
+        </div>
+
         <div class="layout-premium">
             <div class="col-acoes">
                 <div class="formulario-direto">
@@ -148,6 +155,7 @@
                             <option value="64.90">BARBA ILIMITADA - R$ 64,90</option>
                             <option value="149.90">CORTE + BARBA ILIMITADO - R$ 149,90</option>
                         </select>
+                        
                     </div>
 
                     <div class="input-group input-full" id="group-status" style="display: none;">
@@ -171,12 +179,12 @@
 
             <div class="painel-focado-lista">
                 <div class="painel-header">MENSALISTAS CADASTRADOS</div>
-                
-                <div class="tabela-header" style="display: grid; grid-template-columns: 2fr 1.2fr 1.2fr 1fr 1fr 0.5fr; padding: 10px 15px; background: rgba(255,255,255,0.05); border-bottom: 1px solid #333; color: #888; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                <div class="tabela-header" style="display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.5fr 1fr 0.5fr; padding: 10px 15px; background: rgba(255,255,255,0.05); border-bottom: 1px solid #333; color: #888; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
                     <div>Cliente / Zap</div>
                     <div>Início</div>
                     <div>Vencimento</div>
-                    <div>Plano</div>
+                    <div>Plano Selecionado</div>
+                    <div>Pagamento</div>
                     <div style="text-align: right;">Ações</div>
                 </div>
 
@@ -228,30 +236,30 @@
                 </div>
             </div>
 
-            <div class="content-scroll">
-                <div class="header-controls" style="display: flex; align-items: center; position: relative; margin-bottom: 20px;">
-                    <div class="section-title" style="margin: 0;">
-                        <i class="fas fa-cut"></i> Serviços Premium
-                    </div>
-
-                    <button onclick="abrirServicoExtra()" class="btn-movivel-extra">
-                        <i class="fas fa-plus"></i> EXTRA
-                    </button>
+        <div class="content-scroll">
+            <div class="header-controls" style="display: flex; align-items: center; position: relative; margin-bottom: 20px;">
+                <div class="section-title" style="margin: 0;">
+                    <i class="fas fa-cut"></i> Serviços Premium
                 </div>
+                <button onclick="abrirServicoExtra()" class="btn-movivel-extra">
+                    <i class="fas fa-plus"></i> EXTRA
+                </button>
+            </div>
 
-                <div class="grid-layout" id="grid-servicos"></div>
+            <div class="grid-layout" id="grid-servicos"></div>
 
-                <div class="section-title" style="margin-top: 40px;">
+            <div class="header-controls" style="display: flex; align-items: center; position: relative; margin-top: 40px; margin-bottom: 20px;">
+                <div class="section-title" style="margin: 0;">
                     <i class="fas fa-box-open"></i> Produtos
                 </div>
 
                 <button class="btn-doces-balas" onclick="abrirProdutoSnack('modal-doces')">
                     <i class="fas fa-candy-cane"></i><span>SNACKS</span>
                 </button>
-                
-                <div class="grid-layout" id="grid-produtos"></div>
-            
             </div>
+
+            <div class="grid-layout" id="grid-produtos"></div>
+        </div>
 
         </section>
 <section id="stats" class="tab-content">
@@ -540,8 +548,8 @@
             
             <div class="horizontal-container">
                 <div class="side-left">
-                    <div id="salePreview">
-                        </div>
+                    <div id="salePreview"></div>
+                    <div id="area-extra-premium"></div>
                 </div>
 
                 <div class="side-right">
