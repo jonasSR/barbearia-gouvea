@@ -1097,26 +1097,6 @@ body.light-theme .mobile-menu h3 {
 }
 
 
-
-
-/* Forçando a correção por cima do estilo injetado */
-.report-card {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 12px 15px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    gap: 10px !important; /* Cria o espaço que falta para não encavalar */
-}
-
-/* Garante que o texto não suba um no outro */
-.report-card span, 
-.report-card div {
-    position: relative !important;
-    white-space: nowrap !important;
-}
-
 @media (max-width: 768px) {
     /* Tenta esconder o ONLINE buscando por texto se a classe falhar */
     .online-status, .ONLINE, #online-label, [class*="online" i] { 

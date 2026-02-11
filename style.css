@@ -818,6 +818,16 @@ nav {
     border-radius: 10px;
 }
 
+
+#daily-history-list::-webkit-scrollbar {
+    width: 6px;
+}
+#daily-history-list::-webkit-scrollbar-thumb {
+    background-color: #4b4b62;
+    border-radius: 10px;
+}
+
+
 /* Ajustes de Cores das Barras */
 .bar-fill.blue { background: #3b82f6; }
 .bar-fill.green { background: #10b981; }
@@ -1424,20 +1434,6 @@ body:not(.luxury-login) {
     border-color: var(--info);
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
 }
-
-
-
-#daily-history-list::-webkit-scrollbar {
-    width: 6px;
-}
-#daily-history-list::-webkit-scrollbar-thumb {
-    background-color: #4b4b62;
-    border-radius: 10px;
-}
-
-
-
-
 
 .btn-movivel-extra {
     /* --- POSICIONAMENTO FIXO E ESTÁTICO --- */
